@@ -11,12 +11,7 @@ router.get('/', async (ctx, next) => {
     const query = new AV.SearchQuery('Novel');
     query.sortBy(builder);
     query.queryString(`"${word}"`);
-    let data = [];
-    while (query.hasMore()) {
-      const tmp = await query.find();
-      if (tmp.length < 1) break;
-      data.push(...tmp);
-    }
+    const data = await query.find();
     for (let i = 0, k = 0, j = data.length; i < j; i++) {
       let name = data[i].get('name');
       let author = data[i].get('author');
@@ -35,6 +30,7 @@ router.get('/', async (ctx, next) => {
         resu[k++].source[data[i].get('plantFormId')] = data[i].get('url');
       }
     }
+    ctx.body = JSON.stringify(resu);
   } catch (error) {
     ctx.body = 'Search Failed';
   }

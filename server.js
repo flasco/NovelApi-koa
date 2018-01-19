@@ -3,12 +3,10 @@
 var AV = require('leanengine');
 
 AV.init({
-  appId: process.env.LEANCLOUD_APP_ID || 'q8x9ULfMCXTRzQaYFgqjgckz-gzGzoHsz',
-  appKey: process.env.LEANCLOUD_APP_KEY || 's3EH16VFHjF4bQwkqax5uXUi',
-  masterKey: process.env.LEANCLOUD_APP_MASTER_KEY || 'L4Pl3ezTostEt0iGqxMMmErd'
+  appId: process.env.LEANCLOUD_APP_ID || 'XvM4C5TKB8AK1XcyC3041OeQ-gzGzoHsz',
+  appKey: process.env.LEANCLOUD_APP_KEY || 'hF492dpV15UMdQt120SE966S',
+  masterKey: process.env.LEANCLOUD_APP_MASTER_KEY || 'E4zmhkfMxtVIywSB4qnhkq1C'
 });
-
-console.log
 
 if(process.env.LEANCLOUD_APP_ID){
   if(!process.env.SELF_WEBSITE) throw new Error('self_website is undefined');

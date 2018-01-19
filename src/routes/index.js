@@ -2,10 +2,14 @@ const Router = require('koa-router');
 const home = require('./home');
 const analysis = require('./analysis');
 const rnklist = require('./rnklist');
+const apidoc = require('./apidoc');
+const search = require('./search');
 
 const router = Router();
 
 router.use('/', home.routes(), home.allowedMethods());
+router.use('/sear', search.routes(), search.allowedMethods());
+router.use('/apidoc', apidoc.routes(), apidoc.allowedMethods());
 router.use('/rnklist', rnklist.routes(), rnklist.allowedMethods());
 router.use('/analysis', analysis.routes(), analysis.allowedMethods());
 
