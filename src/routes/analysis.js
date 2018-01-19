@@ -1,5 +1,8 @@
 const Router = require('koa-router');
-const { getChapterDetail, getChapterList, getLatestChapter } = require('../util/HttpReq');
+
+const { getChapterDetail, getChapterList, 
+  getLatestChapter } = require('../util/HttpReq');
+
 const router = Router();
 
 const funArr = [undefined, getChapterList, getChapterDetail, getLatestChapter];

@@ -1,5 +1,5 @@
-const Router = require('koa-router');
 const render = require('koa-ejs');
+const Router = require('koa-router');
 
 const router = Router();
 

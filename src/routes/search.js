@@ -2,7 +2,7 @@ const Router = require('koa-router');
 const AV = require('leanengine');
 const router = Router();
 
-const builder = new AV.SearchSortBuilder().descending('name', 'min').ascending('plantFormId', 'min');
+const builder = new AV.SearchSortBuilder().descending('name', 'min');
 // params: name - string
 router.get('/', async (ctx, next) => {
   const word = ctx.request.query.name;

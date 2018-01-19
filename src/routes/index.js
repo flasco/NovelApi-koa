@@ -1,9 +1,10 @@
 const Router = require('koa-router');
+
 const home = require('./home');
-const analysis = require('./analysis');
-const rnklist = require('./rnklist');
 const apidoc = require('./apidoc');
 const search = require('./search');
+const rnklist = require('./rnklist');
+const analysis = require('./analysis');
 
 const router = Router();
 
