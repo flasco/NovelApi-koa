@@ -17,6 +17,7 @@ router.get('/', async (ctx, next) => {
       let author = data[i].get('author');
       if (nameSet[`${name}${author}`] !== undefined) {
         resu[nameSet[`${name}${author}`]].source[data[i].get('plantFormId')] = data[i].get('url');
+        if(data[i].get('plantFormId') !== 3) resu[nameSet[`${name}${author}`]].img = data[i].get('img');
       } else {
         nameSet[`${name}${author}`] = k;
         resu[k] = {
