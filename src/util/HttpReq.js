@@ -4,8 +4,20 @@ const url = require('url');
 const axios = require('axios');
 
 const conf = require('../config');
+const memCache = require("../../simple-cache/Cache");
+
+const cccache = memCache.createCache("LRU", 10000);
 
 async function crawlPage(urlx) {
+  let res = cccache.get(urlx);
+  if (!res) {
+    res = await craw(urlx);
+    res !== '-1' && cccache.set(urlx, res, 1000 * 60 * 60 * 4); //存放4小时
+  }
+  return res;
+}
+
+async function craw(urlx) {
   const { err, data } = await axios.get(urlx, {
     responseType: 'arraybuffer',//不对抓取的数据进行编码解析
     headers: {
@@ -27,7 +39,7 @@ async function getChapterList(urlx) {
   if (res === '-1') { return '-1'; }
   const host = url.parse(urlx).host;
   const cfg = conf.getX(host);
-  if(cfg === '-1') return '暂不支持该网站';
+  if (cfg === '-1') return '暂不支持该网站';
   res = iconv.decode(res, cfg.charset)
   const $ = cheerio.load(res, { decodeEntities: false });
   let as = $(cfg.chapterListSelector);
@@ -50,12 +62,12 @@ async function getChapterList(urlx) {
   return arr;
 }
 
-async function getLatestChapter(urlx){
+async function getLatestChapter(urlx) {
   let res = await crawlPage(urlx);
   if (res === '-1') { return '-1'; }
   const host = url.parse(urlx).host;
   const cfg = conf.getX(host);
-  if(cfg === '-1') return '暂不支持该网站';
+  if (cfg === '-1') return '暂不支持该网站';
   res = iconv.decode(res, cfg.charset)
   const $ = cheerio.load(res, { decodeEntities: false });
   let as = $(cfg.latestChapterSelector);
@@ -67,7 +79,7 @@ async function getChapterDetail(urlx) {
   if (res === '-1') { return '-1'; }
   const host = url.parse(urlx).host;
   const cfg = conf.getX(host);
-  if(cfg === '-1') return '暂不支持该网站';
+  if (cfg === '-1') return '暂不支持该网站';
   res = iconv.decode(res, cfg.charset);
   res = res.replace(/&nbsp;/g, '').replace(/<br \/>/g, '${line}').replace(/<br\/>/g, '${line}');
   const $ = cheerio.load(res, { decodeEntities: false });
@@ -89,7 +101,7 @@ async function RnkList(x) {
   }
   const host = url.parse(urlx).host;
   const cfg = conf.getX(host);
-  if(cfg === '-1') return '暂不支持该网站';
+  if (cfg === '-1') return '暂不支持该网站';
   res = iconv.decode(res, cfg.charset);
   const $ = cheerio.load(res, { decodeEntities: false });
   const ass = $(cfg.novelRankSelector);
