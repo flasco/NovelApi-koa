@@ -6,18 +6,27 @@ const builder = new AV.SearchSortBuilder().descending('name', 'min');
 // params: name - string
 router.get('/', async (ctx, next) => {
   const word = ctx.request.query.name;
+  const author = ctx.request.query.aut || '';
   try {
     let resu = [], nameSet = [];
-    const query = new AV.SearchQuery('Novel');
-    query.sortBy(builder);
-    query.queryString(`"${word}"`);
-    const data = await query.find();
+    let query = '';
+    let data = '';
+    if (author === '') {
+      query = new AV.SearchQuery('Novel');
+      query.queryString(`name:"${word}"`).sortBy(builder);
+      data = await query.find();
+    } else {
+      query = new AV.Query('Novel');
+      query.contains('name', word);
+      query.contains('author', author);
+      data = await query.find();
+    }
     for (let i = 0, k = 0, j = data.length; i < j; i++) {
       let name = data[i].get('name');
       let author = data[i].get('author');
       if (nameSet[`${name}${author}`] !== undefined) {
         resu[nameSet[`${name}${author}`]].source[data[i].get('plantFormId')] = data[i].get('url');
-        if(data[i].get('plantFormId') !== 3) resu[nameSet[`${name}${author}`]].img = data[i].get('img');
+        if (data[i].get('plantFormId') !== 3) resu[nameSet[`${name}${author}`]].img = data[i].get('img');
       } else {
         nameSet[`${name}${author}`] = k;
         resu[k] = {
