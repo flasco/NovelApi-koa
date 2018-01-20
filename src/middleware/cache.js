@@ -4,8 +4,9 @@ const cccache = memCache.createCache("LRU", 10000);
 
 function cache() {
   return async (ctx, next) => {
-    if (ctx.originalUrl.indexOf('analysis') === -1) {
-      const key = 'koa@' + ctx.originalUrl;
+    const partten = ctx.originalUrl;
+    if (partten !== '/' && partten.indexOf('analysis') === -1) {
+      const key = 'koa@' + partten;
       const cachedBody = cccache.get(key);
       if (cachedBody) {
         ctx.body = cachedBody;
