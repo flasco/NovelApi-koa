@@ -12,8 +12,8 @@ AV.Cloud.define('serverStart', function (request) {
   start(17 * 60);
 });
 
-function start(tim) {
-  crawlPage(webSite);
+async function start(tim) {
+  await crawlPage(webSite);
   tim -= 20;
   if (tim > 0) {
     setTimeout(function () {
