@@ -123,7 +123,7 @@ async function RnkList(x) {
 
 
 exports.getChapterList = getChapterList;
-exports.crawlPage = crawlPage;
+exports.craw = craw;
 exports.getChapterDetail = getChapterDetail;
 exports.RnkList = RnkList;
 exports.getLatestChapter = getLatestChapter;

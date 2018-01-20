@@ -1,5 +1,5 @@
 var AV = require('leanengine');
-var { crawlPage } = require('./util/HttpReq');
+var { craw } = require('./util/HttpReq');
 
 const webSite = process.env.SELF_WEBSITE || 'http://localhost:3000';
 
@@ -13,11 +13,13 @@ AV.Cloud.define('serverStart', function (request) {
 });
 
 async function start(tim) {
-  await crawlPage(webSite);
+  await craw(webSite);
   tim -= 20;
   if (tim > 0) {
     setTimeout(function () {
       start(tim);
     }, 1200000);
+  } else {
+    console.log('End---');
   }
 }
