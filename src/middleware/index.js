@@ -8,5 +8,5 @@ module.exports = compose([
   AV.koa2(),
   bodyParser(), //当接受post请求之时将获取的参数放置在 request.body 里面。
   cache(),
-  // logger(),
+  logger(),
 ]);
