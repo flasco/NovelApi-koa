@@ -18,15 +18,20 @@ async function crawlPage(urlx) {
 }
 
 async function craw(urlx) {
-  const { err, data } = await axios.get(urlx, {
-    responseType: 'arraybuffer',//不对抓取的数据进行编码解析
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
-      'Connection': 'keep-alive',
-      'Referer': 'https://www.baidu.com',
-    }
-  });
-  return err ? '-1' : data;
+  try {
+    const { data } = await axios.get(urlx, {
+      responseType: 'arraybuffer',//不对抓取的数据进行编码解析
+      timeout: 5000,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
+        'Connection': 'keep-alive',
+        'Referer': 'https://www.baidu.com',
+      }
+    });
+    return data;
+  } catch (error) {
+    return '-1'
+  }
 }
 
 function NovelChaper(title, url) {
