@@ -41,7 +41,7 @@ function NovelChaper(title, url) {
 
 async function getChapterList(urlx) {
   let res = await crawlPage(urlx);
-  if (res === '-1') { return '-1'; }
+  if (res === '-1') { return ''; }
   const host = url.parse(urlx).host;
   const cfg = conf.getX(host);
   if (cfg === '-1') return '暂不支持该网站';
@@ -81,7 +81,7 @@ async function getLatestChapter(urlx) {
 
 async function getChapterDetail(urlx) {
   let res = await crawlPage(urlx);
-  if (res === '-1') { return '-1'; }
+  if (res === '-1') { return ''; }
   const host = url.parse(urlx).host;
   const cfg = conf.getX(host);
   if (cfg === '-1') return '暂不支持该网站';
@@ -101,9 +101,7 @@ async function RnkList(x) {
   let urlx = `http://r.qidian.com/yuepiao?style=2&page=${x}`;
   let RankList = [];
   let res = await crawlPage(urlx);
-  if (res === '-1') {
-    return '-1';
-  }
+  if (res === '-1') { return ''; }
   const host = url.parse(urlx).host;
   const cfg = conf.getX(host);
   if (cfg === '-1') return '暂不支持该网站';
