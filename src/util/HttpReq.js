@@ -89,7 +89,8 @@ async function getChapterDetail(urlx) {
   res = res.replace(/&nbsp;/g, '').replace(/<br \/>/g, '${line}').replace(/<br\/>/g, '${line}');
   const $ = cheerio.load(res, { decodeEntities: false });
   let asTit = $(cfg.chapterDetail.titleSelector);
-  let asCon = $(cfg.chapterDetail.contentSelector).text();
+  let asCon = $(cfg.chapterDetail.contentSelector);
+  asCon = host.indexOf('kanshuz') !== -1 ? asCon[0].children[2].data : asCon.text();
   let arr = {
     title: asTit[0].children[0].data,
     content: asCon.replace(/\${line}/g, '\n').replace(/[ 　]+/g, '').replace(/\n+/g, '\n')
