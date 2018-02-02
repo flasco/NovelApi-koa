@@ -4,11 +4,11 @@ const router = Router();
 
 // params: name - string
 router.get('/', async (ctx, next) => {
-  const word = ctx.request.query.name || '';
-  const author = ctx.request.query.aut || '';
   try {
+    const word = ctx.request.query.name || '';
+    const aut = ctx.request.query.aut || '';
     const query = new AV.SearchQuery('Novel');
-    query.queryString(`name:"${word}" author:"${author}"`);
+    query.queryString(`name:"${word}" author:"${aut}"`);
     const data = await query.find();
     let name, author, resu = [], nameSet = [];
     for (let i = 0, k = 0, j = data.length; i < j; i++) {
@@ -33,6 +33,7 @@ router.get('/', async (ctx, next) => {
     nameSet = null;
     ctx.body = JSON.stringify(resu);
   } catch (error) {
+    console.log(error)
     ctx.body = 'Search Failed';
   }
 });
