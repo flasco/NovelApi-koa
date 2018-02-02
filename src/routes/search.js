@@ -7,13 +7,13 @@ router.get('/', async (ctx, next) => {
   const word = ctx.request.query.name || '';
   const author = ctx.request.query.aut || '';
   try {
-    let resu = [], nameSet = [];
     const query = new AV.SearchQuery('Novel');
     query.queryString(`name:"${word}" author:"${author}"`);
     const data = await query.find();
+    let name, author, resu = [], nameSet = [];
     for (let i = 0, k = 0, j = data.length; i < j; i++) {
-      let name = data[i].get('name');
-      let author = data[i].get('author');
+      name = data[i].get('name');
+      author = data[i].get('author');
       if (nameSet[`${name}${author}`] !== undefined) {
         resu[nameSet[`${name}${author}`]].source[data[i].get('plantFormId')] = data[i].get('url');
         if (data[i].get('plantFormId') !== 3) resu[nameSet[`${name}${author}`]].img = data[i].get('img');
@@ -30,6 +30,7 @@ router.get('/', async (ctx, next) => {
         resu[k++].source[data[i].get('plantFormId')] = data[i].get('url');
       }
     }
+    nameSet = null;
     ctx.body = JSON.stringify(resu);
   } catch (error) {
     ctx.body = 'Search Failed';

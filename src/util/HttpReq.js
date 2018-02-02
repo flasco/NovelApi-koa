@@ -48,22 +48,26 @@ async function getChapterList(urlx) {
   res = iconv.decode(res, cfg.charset)
   const $ = cheerio.load(res, { decodeEntities: false });
   let as = $(cfg.chapterListSelector);
-  let arr = [], tit = new Set(), i = 0, j = 0;
+  let arr = [], tit = new Set(), i = 0, j = 0, tex = null;
   while (i < as.length) {
-    let tex = as[i].children[0].data;
+    tex = as[i].children[0].data;
     if (!tit.has(tex)) {
       arr[j++] = new NovelChaper(tex, urlx + as[i].attribs.href);
       tit.add(tex);
     }
     i++;
   }
-  cfg.wheSort && arr.sort(function (a, b) {
-    let o1U = a.url;
-    let o2U = b.url;
-    let o1Index = o1U.substring(o1U.lastIndexOf('/') + 1, o1U.lastIndexOf('.'));
-    let o2Index = o2U.substring(o2U.lastIndexOf('/') + 1, o2U.lastIndexOf('.'));
-    return o1Index - o2Index;
-  });
+
+  if (cfg.wheSort) {
+    let o1U, o2U, o1Index, o2Index;
+    arr.sort(function (a, b) {
+      o1U = a.url;
+      o2U = b.url;
+      o1Index = o1U.substring(o1U.lastIndexOf('/') + 1, o1U.lastIndexOf('.'));
+      o2Index = o2U.substring(o2U.lastIndexOf('/') + 1, o2U.lastIndexOf('.'));
+      return o1Index - o2Index;
+    });
+  }
   return arr;
 }
 
