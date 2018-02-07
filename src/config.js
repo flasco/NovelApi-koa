@@ -77,7 +77,7 @@ let sites = [{
   latestChapterSelector: `meta[property='og:novel:latest_chapter_name']`,
   chapterListSelector: '#chapterlist p a',
   chapterDetail: {
-    titleSelector: '.title',
+    titleSelector: 'title',
     contentSelector: '#chaptercontent',
     prevSelector: '#pb_prev',
     nextSelector: '#pb_next',

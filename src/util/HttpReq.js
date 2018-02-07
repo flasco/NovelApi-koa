@@ -100,7 +100,7 @@ async function getChapterDetail(urlx) {
   let asCon = $(cfg.chapterDetail.contentSelector);
   asCon = host.indexOf('kanshuz') !== -1 || host.indexOf('m.xs') !== -1 ? asCon[0].children[2].data : asCon.text();
   let arr = {
-    title: asTit[0].children[0].data,
+    title: asTit[0].children[0].data.split('_')[0],
     content: asCon.replace(/\${line}/g, '\n').replace(/[ 　]+/g, '').replace(/\n+/g, '\n')
   };
   return arr;
