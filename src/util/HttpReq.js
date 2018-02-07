@@ -49,6 +49,10 @@ async function getChapterList(urlx) {
   const $ = cheerio.load(res, { decodeEntities: false });
   let as = $(cfg.chapterListSelector);
   let arr = [], tit = new Set(), i = 0, j = 0, tex = null;
+  if (host.indexOf('m.xs') !== -1) {
+    i = 1;
+    urlx = `https://${host}`;
+  }
   while (i < as.length) {
     tex = as[i].children[0].data;
     if (!tit.has(tex)) {
@@ -94,7 +98,7 @@ async function getChapterDetail(urlx) {
   const $ = cheerio.load(res, { decodeEntities: false });
   let asTit = $(cfg.chapterDetail.titleSelector);
   let asCon = $(cfg.chapterDetail.contentSelector);
-  asCon = host.indexOf('kanshuz') !== -1 ? asCon[0].children[2].data : asCon.text();
+  asCon = host.indexOf('kanshuz') !== -1 || host.indexOf('m.xs') !== -1 ? asCon[0].children[2].data : asCon.text();
   let arr = {
     title: asTit[0].children[0].data,
     content: asCon.replace(/\${line}/g, '\n').replace(/[ 　]+/g, '').replace(/\n+/g, '\n')

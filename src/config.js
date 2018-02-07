@@ -19,10 +19,10 @@ let sites = [{
   }
 }, {
   title: '笔趣阁',
-  wheSort: false,
+  wheSort: true,
   charset: 'UTF-8',
   latestChapterInfo: 'content',
-  url: 'http://www.xs.la/',
+  url: 'https://www.xs.la/',
   latestChapterSelector: `meta[property='og:novel:latest_chapter_name']`,
   chapterListSelector: '#list dd a',
   chapterDetail: {
@@ -68,17 +68,32 @@ let sites = [{
     prevSelector: '#pager_prev',
     nextSelector: '#pager_next',
   },
+}, {
+  title: '移动笔趣阁',
+  wheSort: false,
+  charset: 'UTF-8',
+  latestChapterInfo: 'content',
+  url: 'https://m.xs.la/',
+  latestChapterSelector: `meta[property='og:novel:latest_chapter_name']`,
+  chapterListSelector: '#chapterlist p a',
+  chapterDetail: {
+    titleSelector: '.title',
+    contentSelector: '#chaptercontent',
+    prevSelector: '#pb_prev',
+    nextSelector: '#pb_next',
+  },
 }];
 
 
 function getXMLConf() {
   let site_ = {};
   site_.getX = (host) => {
-    let index = ((host + '').indexOf('23us') > 0) && 0
-      || ((host + '').indexOf('xs.la') > 0) && 1
-      || ((host + '').indexOf('kanshuzhong') > 0) && 2
-      || ((host + '').indexOf('qidian') > 0) && 3
-      || ((host + '').indexOf('biqu.cm') > 0) && 4
+    let index = ((host + '').indexOf('23us') > -1) && 0
+      || ((host + '').indexOf('www.xs.la') > -1) && 1
+      || ((host + '').indexOf('kanshuzhong') > -1) && 2
+      || ((host + '').indexOf('qidian') > -1) && 3
+      || ((host + '').indexOf('biqu.cm') > -1) && 4
+      || ((host + '').indexOf('m.xs.la') > -1) && 5
       || -1;
     if (index === -1) {
       return '-1';
