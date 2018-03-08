@@ -13,8 +13,8 @@ AV.Cloud.define('serverStart', function (request) {
   return webSite;
 });
 
-async function start(tim) {
-  await craw(webSite);
+function start(tim) {
+  craw(webSite); // 去除promise的等待，避免云函数未响应导致定时器无法继续
   tim -= 20;
   if (tim > 0) {
     setTimeout(function () {
