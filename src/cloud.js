@@ -23,4 +23,5 @@ function start(tim) {
   } else {
     console.log('End---');
   }
+  return true;
 }
