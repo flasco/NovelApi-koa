@@ -14,7 +14,11 @@ AV.Cloud.define('serverStart', function (request) {
 });
 
 function start(tim) {
-  craw(webSite); // 去除promise的等待，避免云函数未响应导致定时器无法继续
+  let timer = setInterval(() => {
+    tim -= 20;
+    tim <= 0 ? clearInterval(timer) : craw(webSite);
+  }, 1200000);//000
+  /*craw(webSite); // 去除promise的等待，避免云函数未响应导致定时器无法继续
   tim -= 20;
   if (tim > 0) {
     setTimeout(function () {
@@ -22,6 +26,5 @@ function start(tim) {
     }, 1200000);
   } else {
     console.log('End---');
-  }
-  return true;
+  }*/
 }
