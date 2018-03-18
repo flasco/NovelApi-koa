@@ -18,8 +18,8 @@ function start(tim) {
   craw(webSite); // 先抓一发，开启服务器，接下来再定时
   let timer = setInterval(() => {
     tim -= 20;
-    tim <= 0 ?clearInterval(timer):craw(webSite);
-  }, 1200);//000
+    tim <= 0 ? clearInterval(timer) : craw(webSite);
+  }, 1200000);
   /*craw(webSite); // 去除promise的等待，避免云函数未响应导致定时器无法继续
   tim -= 20;
   if (tim > 0) {
