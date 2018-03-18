@@ -14,13 +14,11 @@ AV.Cloud.define('serverStart', function (request) {
 });
 
 function start(tim) {
+  tim -= 20;
+  craw(webSite); // 先抓一发，开启服务器，接下来再定时
   let timer = setInterval(() => {
     tim -= 20;
-    if (tim <= 0) {
-      clearInterval(timer);
-    } else {
-      craw(webSite);
-    }
+    tim <= 0 ?clearInterval(timer):craw(webSite);
   }, 1200);//000
   /*craw(webSite); // 去除promise的等待，避免云函数未响应导致定时器无法继续
   tim -= 20;
