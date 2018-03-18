@@ -16,12 +16,10 @@ AV.Cloud.define('serverStart', function (request) {
 function start(tim) {
   let timer = setInterval(() => {
     tim -= 20;
-    if(tim<=0){
-      console.log('定时器暂停');
+    if (tim <= 0) {
       clearInterval(timer);
-    }else {
-      console.log('fetch..');
-      craw(webSite).then(val=>console.log(val))
+    } else {
+      craw(webSite);
     }
   }, 1200);//000
   /*craw(webSite); // 去除promise的等待，避免云函数未响应导致定时器无法继续
