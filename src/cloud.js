@@ -9,8 +9,11 @@ AV.Cloud.define('hello', function (request) {
 
 AV.Cloud.define('serverStart', function (request) {
   console.log(`服务器将持续运行 - 17小时`);
-  start(17 * 60);
-  return webSite;
+  //start(17 * 60);
+  return new Promise((resolve, reject)=>{
+    start(17 * 60);
+    resolve(1);
+  })
 });
 
 function start(tim) {
@@ -20,13 +23,4 @@ function start(tim) {
     tim -= 20;
     tim <= 0 ? clearInterval(timer) : craw(webSite);
   }, 1200000);
-  /*craw(webSite); // 去除promise的等待，避免云函数未响应导致定时器无法继续
-  tim -= 20;
-  if (tim > 0) {
-    setTimeout(function () {
-      start(tim);
-    }, 1200000);
-  } else {
-    console.log('End---');
-  }*/
 }
