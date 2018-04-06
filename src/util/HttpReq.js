@@ -17,11 +17,11 @@ async function crawlPage(urlx) {
   return res;
 }
 
-async function craw(urlx) {
+async function craw(urlx, timeout = 5000) {
   try {
     const { data } = await axios.get(urlx, {
       responseType: 'arraybuffer',//不对抓取的数据进行编码解析
-      timeout: 5000,
+      timeout,
       headers: {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
         'Connection': 'keep-alive',
