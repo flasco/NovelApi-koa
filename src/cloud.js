@@ -1,3 +1,4 @@
+
 var AV = require('leanengine');
 var { craw } = require('./util/HttpReq');
 
@@ -10,14 +11,18 @@ AV.Cloud.define('hello', function (request) {
 AV.Cloud.define('serverStart', function (request) {
   console.log(`服务器将持续运行 - 17小时`);
   start(17 * 60);
-  return 'success..?';
+  return 1;
 });
 
 function start(tim) {
   tim -= 20;
   craw(webSite); // 先抓一发，开启服务器，接下来再定时
-  let timer = setInterval(() => {
+  let timer = setInterval((tim) => {
     tim -= 20;
-    tim <= 0 ? clearInterval(timer) : craw(webSite, 10);
+    if(tim <= 0){
+      clearInterval(timer);
+    }else {
+      craw(webSite, 400);
+    }
   }, 1200000);
 }
