@@ -23,7 +23,7 @@ async function craw(urlx, timeout = 5000) {
       responseType: 'arraybuffer',//不对抓取的数据进行编码解析
       timeout,
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36',
         'Connection': 'keep-alive',
         'Referer': 'https://www.baidu.com',
       }
@@ -132,6 +132,14 @@ async function RnkList(x) {
   return RankList;
 }
 
+async function getLatestChapterLst(list) {
+  let workQueue = [];
+  for (let i = 0, j = list.length; i < j; i++) {
+    workQueue.push(getLatestChapter(list[i]));
+  }
+  let resLst = await Promise.all(workQueue);
+  return resLst;
+}
 
 
 exports.getChapterList = getChapterList;
@@ -139,3 +147,4 @@ exports.craw = craw;
 exports.getChapterDetail = getChapterDetail;
 exports.RnkList = RnkList;
 exports.getLatestChapter = getLatestChapter;
+exports.getLatestChapterLst = getLatestChapterLst;
