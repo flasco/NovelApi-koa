@@ -15,7 +15,11 @@ onerror(app); //错误详细处理
 
 app.use(views(path.join(__dirname, './views'), { extension: 'ejs' })) //视图加载
 
-app.use(staticServer(path.join(__dirname,'./public'))); //静态资源加载
+app.use(staticServer(path.join(__dirname, './public'), {
+  maxage: 1000 * 60 * 60 * 24 * 30,
+  hidden: true,
+  gzip: true,
+})); //静态资源加载
 
 app.use(middleware); //中间件加载
 
