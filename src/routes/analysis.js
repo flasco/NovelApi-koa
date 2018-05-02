@@ -5,16 +5,24 @@ const { getChapterDetail, getChapterList,
 
 const router = Router();
 
-const funArr = [undefined, getChapterList, getChapterDetail, getLatestChapter, getLatestChapterLst];
+const funArr = [undefined, getChapterList, getChapterDetail, getLatestChapter];
 
 // params: action - Number url - url
 router.get('/', async (ctx, next) => {
   let params = ctx.request.query;
   try {
-    ctx.body = await funArr[params.action](params.action == 4 ? JSON.parse(params.url) : params.url);
+    ctx.body = await funArr[params.action](params.url);
   } catch (error) {
     ctx.body = 'Action / url Error';
   }
 });
 
+router.post('/', async (ctx, next) => {
+  let params = ctx.request.body;
+  try {
+    ctx.body = await getLatestChapterLst(params)
+  } catch (error) {
+    ctx.body = 'Action / url Error';
+  }
+});
 module.exports = router;
