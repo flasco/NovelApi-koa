@@ -88,12 +88,12 @@ let sites = [{
 function getXMLConf() {
   let site_ = {};
   site_.getX = (host) => {
-    let index = ((host + '').indexOf('23us') > -1) && 0
-      || ((host + '').indexOf('www.xs.la') > -1) && 1
-      || ((host + '').indexOf('kanshuzhong') > -1) && 2
-      || ((host + '').indexOf('qidian') > -1) && 3
-      || ((host + '').indexOf('biqu.cm') > -1) && 4
-      || ((host + '').indexOf('m.xs.la') > -1) && 5
+    let index = ((`${host}`).indexOf('23us') > -1) && 0
+      || ((`${host}`).indexOf('www.xs.la') > -1) && 1
+      || ((`${host}`).indexOf('kanshuzhong') > -1) && 2
+      || ((`${host}`).indexOf('qidian') > -1) && 3
+      || ((`${host}`).indexOf('biqu.cm') > -1) && 4
+      || ((`${host}`).indexOf('m.xs.la') > -1) && 5
       || -1;
     if (index === -1) {
       return '-1';
