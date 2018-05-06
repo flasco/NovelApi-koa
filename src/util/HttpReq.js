@@ -135,10 +135,33 @@ async function RnkList(x) {
 async function getLatestChapterLst(list) {
   let workQueue = [];
   for (let i = 0, j = list.length; i < j; i++) {
-    workQueue.push(getLatestChapter(list[i]));
+    workQueue.push(getLatestChapter(list[i].url));
   }
   let resLst = await Promise.all(workQueue);
-  return resLst;
+  workQueue = [];
+  let res = [];
+  let markList = [];
+  resLst.filter((item, index) => {
+    if (item !== list[index].title) {
+      workQueue.push(getChapterList(list[index].url));
+      markList.push(index);
+      res.push({
+        title: item,
+        list: []
+      });
+    } else {
+      res.push('-1');
+    }
+  });
+  if (workQueue.length !== 0) {
+    resLst = await Promise.all(workQueue);
+    let i = 0;
+    resLst.filter((item, index) => {
+      res[markList[i++]].list = item;
+    });
+  }
+
+  return res;
 }
 
 
