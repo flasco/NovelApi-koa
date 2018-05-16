@@ -9,9 +9,9 @@ AV.Cloud.define('hello', function (request) {
 });
 
 AV.Cloud.define('serverStart', function (request) {
-  console.log(`服务器将持续运行 - 17小时`);
-  start(16 * 60);
-  return 1;
+  console.log(`服务器将持续运行 - 15小时`);
+  start(15 * 60);
+  return '';
 });
 
 function start(tim) {
