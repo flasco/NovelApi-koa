@@ -14,15 +14,22 @@ AV.Cloud.define('serverStart', function (request) {
   return '';
 });
 
+let timer = null;
+let lessTime = 0;
+
 function start(tim) {
-  tim -= 20;
-  craw(webSite); // 先抓一发，开启服务器，接下来再定时
-  let timer = setInterval((tim) => {
-    tim -= 20;
-    if(tim <= 0){
-      clearInterval(timer);
-    }else {
-      craw(webSite, 400);
-    }
-  }, 1200000);
+  if (timer !== null) {
+    lessTime = tim - 20;
+    craw(webSite); // 先抓一发，开启服务器，接下来再定时
+    timer = setInterval(() => {
+      lessTime -= 20;
+      if (lessTime <= 0) {
+        clearInterval(timer);
+        timer = null;
+      } else {
+        craw(webSite, 400);
+      }
+    }, 1200000);
+  } else console.log('already running.');
+
 }
