@@ -18,7 +18,7 @@ let timer = null;
 let lessTime = 0;
 
 function start(tim) {
-  if (timer !== null) {
+  if (timer == null) {
     lessTime = tim - 20;
     craw(webSite); // 先抓一发，开启服务器，接下来再定时
     timer = setInterval(() => {
