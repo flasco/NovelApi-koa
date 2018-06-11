@@ -58,7 +58,7 @@ YoubingParser.prototype.getChapterDetail = async function (urlx) {
       return item.childNodes[0].data.trim();
     } else return '';
   });
-  asCon = asCon.join('/n');
+  asCon = asCon.join('\n');
   let arr = {
     title: asTit[0].children[0].data.split('_')[0],
     content: asCon
