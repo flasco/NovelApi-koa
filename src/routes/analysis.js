@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 
 const { getChapterDetail, getChapterList,
-  getLatestChapter, getLatestChapterLst } = require('../util/HttpReq');
+  getLatestChapter, getLatestChapterLst } = require('../util/core');
 
 const router = Router();
 
@@ -25,4 +25,5 @@ router.post('/', async (ctx, next) => {
     ctx.body = 'Action / url Error';
   }
 });
+
 module.exports = router;
