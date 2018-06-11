@@ -13,6 +13,7 @@ router.get('/', async (ctx, next) => {
   try {
     ctx.body = await funArr[params.action](params.url);
   } catch (error) {
+    console.log(error)
     ctx.body = 'Action / url Error';
   }
 });

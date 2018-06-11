@@ -1,5 +1,5 @@
 const { CommonParser, cheerio } = require('./common.parser');
-
+const NovelChaper = require('./NovelChapter');
 function YoubingParser() {
   this.key = Symbol('97ub.cc');
   this.wheSort = true;
@@ -17,6 +17,34 @@ function YoubingParser() {
 }
 
 YoubingParser.prototype = new CommonParser();
+
+YoubingParser.prototype.getChapterList = async function (urlx) {
+  let res = await this.getPageContent(urlx);
+  if (res === '') { return ''; }
+  const $ = cheerio.load(res, { decodeEntities: false });
+  let as = $(this.chapterListSelector);
+  let arr = [], tit = new Set(), i = 0, j = 0, tex = null;
+  while (i < as.length) {
+    tex = as[i].children[0].data;
+    if (!tit.has(tex)) {
+      arr[j++] = new NovelChaper(tex, `https:${as[i].attribs.href}`);
+      tit.add(tex);
+    }
+    i++;
+  }
+
+  if (this.wheSort) {
+    let o1U, o2U, o1Index, o2Index;
+    arr.sort(function (a, b) {
+      o1U = a.url;
+      o2U = b.url;
+      o1Index = o1U.substring(o1U.lastIndexOf('/') + 1, o1U.lastIndexOf('.'));
+      o2Index = o2U.substring(o2U.lastIndexOf('/') + 1, o2U.lastIndexOf('.'));
+      return o1Index - o2Index;
+    });
+  }
+  return arr;
+}
 
 YoubingParser.prototype.getChapterDetail = async function (urlx) {
   let res = await this.getPageContent.call(this, urlx);

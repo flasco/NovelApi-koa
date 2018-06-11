@@ -3,6 +3,7 @@ const iconv = require('iconv-lite');
 const { crawlPage } = require('../util/HttpReq');
 const cheerio = require('cheerio');
 const NovelChaper = require('./NovelChapter');
+iconv.skipDecodeWarning = true;
 
 function CommonParser() {
 
