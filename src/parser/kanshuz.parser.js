@@ -17,6 +17,19 @@ function KanshuzParser() {
 
 KanshuzParser.prototype = new CommonParser();
 
-// XslaParser.prototype.getChapterList = function(url){ console.log(url); }
+KanshuzParser.prototype.getChapterDetail = async function (urlx) {
+  let res = await this.getPageContent(urlx);
+  if (res === '') { return ''; }
+  res = res.replace(/&nbsp;/g, '').replace(/<br \/>/g, '${line}').replace(/<br\/>/g, '${line}');
+  const $ = cheerio.load(res, { decodeEntities: false });
+  let asTit = $(this.chapterDetail.titleSelector);
+  let asCon = $(this.chapterDetail.contentSelector);
+  asCon = asCon[0].childNodes[2].data;
+  let arr = {
+    title: asTit[0].children[0].data.split('_')[0],
+    content: asCon.replace(/\${line}/g, '\n').replace(/[ 　]+/g, '').replace(/\n+/g, '\n')
+  };
+  return arr;
+}
 
 module.exports = KanshuzParser;
