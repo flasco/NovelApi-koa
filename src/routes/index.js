@@ -7,6 +7,7 @@ const rnklist = require('./rnklist');
 const analysis = require('./analysis');
 const login = require('./login');
 const sign = require('./sign');
+const del = require('./delete');
 
 const router = Router();
 
@@ -17,6 +18,7 @@ router.use('/rnklist', rnklist.routes(), rnklist.allowedMethods());
 router.use('/analysis', analysis.routes(), analysis.allowedMethods());
 router.use('/login', login.routes(), login.allowedMethods());
 router.use('/sign', sign.routes(), sign.allowedMethods());
+router.use('/delete', del.routes(), del.allowedMethods());
 
 router.get('*', async (ctx, next) => {
   ctx.body = 'Request Error';
