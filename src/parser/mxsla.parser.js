@@ -41,7 +41,7 @@ MXslaParser.prototype.getChapterDetail = async function (urlx) {
   const $ = cheerio.load(res, { decodeEntities: false });
   let asTit = $(this.chapterDetail.titleSelector);
   let asCon = $(this.chapterDetail.contentSelector);
-  asCon = asCon[0].children[2].data;
+  asCon = asCon.text();
   let arr = {
     title: asTit[0].children[0].data.split('_')[0],
     content: asCon
