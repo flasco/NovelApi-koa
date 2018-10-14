@@ -30,6 +30,7 @@ async function craw(urlx, timeout = 5000) {
     });
     return data;
   } catch (error) {
+    console.error(error);
     return '-1'
   }
 }
@@ -121,7 +122,7 @@ async function RnkList(x) {
   let urlx = `http://r.qidian.com/yuepiao?style=2&page=${x}`;
   let RankList = [];
   let res = await crawlPage(urlx);
-  if (res === '-1') { return ''; }
+  if (res === '-1') { return '-1'; }
   const host = url.parse(urlx).host;
   const cfg = conf.getX(host);
   if (cfg === '-1') return '暂不支持该网站';

@@ -11,14 +11,14 @@ function CommonParser() {
 
 CommonParser.prototype.getPageContent = async function (urlx) {
   let res = await crawlPage(urlx);
-  if (res === '') { return ''; }
+  if (res === '-1') { return '-1'; }
   res = iconv.decode(res, this.charset);
   return res;
 }
 
 CommonParser.prototype.getChapterList = async function (urlx) {
   let res = await this.getPageContent(urlx);
-  if (res === '') { return ''; }
+  if (res === '-1') { return '-1'; }
   const $ = cheerio.load(res, { decodeEntities: false });
   let as = $(this.chapterListSelector);
   let arr = [], tit = new Set(), i = 0, j = 0, tex = null;
@@ -46,7 +46,7 @@ CommonParser.prototype.getChapterList = async function (urlx) {
 
 CommonParser.prototype.getLatestChapter = async function (urlx) {
   let res = await this.getPageContent(urlx);
-  if (res === '') { return ''; }
+  if (res === '-1') { return '-1'; }
   const $ = cheerio.load(res, { decodeEntities: false });
   let as = $(this.latestChapterSelector);
   return as.attr(this.latestChapterInfo);
@@ -54,7 +54,7 @@ CommonParser.prototype.getLatestChapter = async function (urlx) {
 
 CommonParser.prototype.getChapterDetail = async function (urlx) {
   let res = await this.getPageContent(urlx);
-  if (res === '') { return ''; }
+  if (res === '-1') { return '-1'; }
   res = res.replace(/&nbsp;/g, '').replace(/<br \/>/g, '${line}').replace(/<br\/>/g, '${line}');
   const $ = cheerio.load(res, { decodeEntities: false });
   let asTit = $(this.chapterDetail.titleSelector);

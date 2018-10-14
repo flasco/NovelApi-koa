@@ -20,7 +20,7 @@ YoubingParser.prototype = new CommonParser();
 
 YoubingParser.prototype.getChapterList = async function (urlx) {
   let res = await this.getPageContent(urlx);
-  if (res === '') { return ''; }
+  if (res === '-1') { return '-1'; }
   const $ = cheerio.load(res, { decodeEntities: false });
   let as = $(this.chapterListSelector);
   let arr = [], tit = new Set(), i = 0, j = 0, tex = null;
@@ -48,7 +48,7 @@ YoubingParser.prototype.getChapterList = async function (urlx) {
 
 YoubingParser.prototype.getChapterDetail = async function (urlx) {
   let res = await this.getPageContent.call(this, urlx);
-  if (res === '-1') { return ''; }
+  if (res === '-1') { return '-1'; }
   const $ = cheerio.load(res, { decodeEntities: false });
   let asTit = $(this.chapterDetail.titleSelector);
   let asCon = $(this.chapterDetail.contentSelector);
