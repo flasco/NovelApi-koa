@@ -30,7 +30,6 @@ async function craw(urlx, timeout = 5000) {
     });
     return data;
   } catch (error) {
-    console.error(error);
     return '-1'
   }
 }
