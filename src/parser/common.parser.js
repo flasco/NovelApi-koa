@@ -60,16 +60,9 @@ CommonParser.prototype.getChapterDetail = async function (urlx) {
   let asTit = $(this.chapterDetail.titleSelector);
   let asCon = $(this.chapterDetail.contentSelector);
   asCon = asCon.text();
-  if (asTit[0] == null) {
-    console.error(asTit);
-    console.error(res);
-  }
   asTit = asTit[0] || [{ children: { data: '' } }];
 
   const children = asTit.children || [{ data: '' }];
-  if (asTit[0].children == null) {
-    console.error(res);
-  }
   let arr = {
     title: children[0].data.split('_')[0],
     content: asCon.replace(/\${line}/g, '\n').replace(/[ 　]+/g, '').replace(/\n+/g, '\n')
