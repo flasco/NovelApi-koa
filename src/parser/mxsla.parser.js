@@ -37,7 +37,7 @@ MXslaParser.prototype.getChapterList = async function (urlx) {
 
 MXslaParser.prototype.getChapterDetail = async function (urlx) {
   let res = await this.getPageContent.call(this, urlx);
-  if (res === '-1') { return ''; }
+  if (res === '-1') { return '-1'; }
   const $ = cheerio.load(res, { decodeEntities: false });
   let asTit = $(this.chapterDetail.titleSelector);
   let asCon = $(this.chapterDetail.contentSelector);

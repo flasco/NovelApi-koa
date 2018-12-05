@@ -19,7 +19,7 @@ QksParser.prototype = new CommonParser();
 
 QksParser.prototype.getLatestChapter = async function (urlx) {
   let res = await this.getPageContent(urlx);
-  if (res === '') { return ''; }
+  if (res === '-1') { return '-1'; }
   const $ = cheerio.load(res, { decodeEntities: false });
   let as = $(this.latestChapterSelector);
   return as.text();
@@ -27,7 +27,7 @@ QksParser.prototype.getLatestChapter = async function (urlx) {
 
 QksParser.prototype.getChapterDetail = async function (urlx) {
   let res = await this.getPageContent(urlx);
-  if (res === '') { return ''; }
+  if (res === '-1') { return '-1'; }
   res = res.replace(/&nbsp;/g, '').replace(/<br \/>/g, '${line}').replace(/<br\/>/g, '${line}');
   const $ = cheerio.load(res, { decodeEntities: false });
   let asTit = $(this.chapterDetail.titleSelector);
