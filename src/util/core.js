@@ -1,6 +1,5 @@
 const { parserFactory } = require('../parser');
 
-
 async function getChapterList(urlx) {
   let parser = parserFactory(urlx);
   return await parser.getChapterList(urlx);
@@ -16,7 +15,7 @@ async function getChapterDetail(urlx) {
   return await parser.getChapterDetail(urlx);
 }
 
-async function getLatestChapterLst(list){
+async function getLatestChapterLst(list) {
   let workQueue = [];
   for (let i = 0, j = list.length; i < j; i++) {
     workQueue.push(getLatestChapter(list[i].url));
@@ -26,12 +25,14 @@ async function getLatestChapterLst(list){
   let markList = [];
   let res = resLst.map((item, index) => {
     if (item !== list[index].title) {
-      workQueue.push(getChapterList(list[index].url));
+      const tmpUrl = list[index].url;
+      const originUrl = /m.xs/g.test(tmpUrl) && !/all.html/g.test(tmpUrl) ? `${tmpUrl}all.html` : tmpUrl;
+      workQueue.push(getChapterList(originUrl));
       markList.push(index);
       return {
         title: item,
         list: []
-      }
+      };
     } else {
       return '-1';
     }
@@ -39,7 +40,7 @@ async function getLatestChapterLst(list){
   if (workQueue.length !== 0) {
     resLst = await Promise.all(workQueue);
     let i = 0;
-    resLst.filter((item) => {
+    resLst.filter(item => {
       res[markList[i++]].list = item;
     });
   }
