@@ -4,8 +4,8 @@ const router = Router();
 
 // params: p - Number
 router.get('/', async (ctx) => {
-  let params = ctx.request.query;
-  ctx.body = await qdRnkList(params.p);
+  const { p = 1 } = ctx.request.query;
+  ctx.body = await qdRnkList(p);
 });
 
 module.exports = router;

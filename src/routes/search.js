@@ -5,12 +5,11 @@ const searchNovel = require('../core/search');
 const router = Router();
 
 // params: name - string
-router.get('/', async (ctx) => {
-    const word = ctx.request.query.name || '';
-    const aut = ctx.request.query.aut || '';
-    const result = searchNovel(word, aut);
+router.get('/', async ctx => {
+  const { name = '', aut = '' } = ctx.request.query;
 
-    ctx.body = JSON.stringify(result);
+  const result = await searchNovel(name, aut);
+  ctx.json(0, 'ok', result);
 });
 
 module.exports = router;

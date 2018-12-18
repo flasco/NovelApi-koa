@@ -28,6 +28,7 @@ function parserFactory(host) {
     || ((`${host}`).indexOf('97ub.cc') > -1) && 7
     || ((`${host}`).indexOf('7kshu.com') > -1) && 8
     || -1;
+    if (index === -1) throw new Error('未收录的网址');
   return parserArr[index];
 }
 
