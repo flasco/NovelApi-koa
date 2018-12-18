@@ -1,5 +1,5 @@
 const { getLatestChapterLst, getLatestChapter } = require('../src/util/HttpReq');
-const axios = require('axios');
+
 test('testLatestChapterList', async () => {
   let list = [{
     url: 'https://www.xs.la/87_87069/',
