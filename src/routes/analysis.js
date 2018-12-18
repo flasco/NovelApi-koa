@@ -16,14 +16,14 @@ router.get('/', async (ctx) => {
   const { url, action } = ctx.request.query;
 
   const result = await funArr[action](url);
-  ctx.json(result);
+  ctx.json(0, 'ok', result);
 });
 
 router.post('/', async (ctx) => {
   const params = ctx.request.body;
 
   const result = await getLatestChapterLst(params);
-  ctx.json(result);
+  ctx.json(0, 'ok', result);
 });
 
 module.exports = router;

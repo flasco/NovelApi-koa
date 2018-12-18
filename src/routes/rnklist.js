@@ -5,7 +5,8 @@ const router = Router();
 // params: p - Number
 router.get('/', async (ctx) => {
   const { p = 1 } = ctx.request.query;
-  ctx.body = await qdRnkList(p);
+  const result = await qdRnkList(p);
+  ctx.json(0, 'ok', result)
 });
 
 module.exports = router;
