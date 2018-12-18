@@ -1,9 +1,8 @@
-const render = require('koa-ejs');
 const Router = require('koa-router');
 
 const router = Router();
 
-router.get('/', async (ctx, next) => {
+router.get('/', async (ctx) => {
   await ctx.render('api');
 });
 

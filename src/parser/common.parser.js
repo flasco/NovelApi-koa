@@ -1,6 +1,6 @@
 const url = require('url');
 const iconv = require('iconv-lite');
-const { crawlPage } = require('../util/HttpReq');
+const { crawlPage } = require('../util/http-req');
 const cheerio = require('cheerio');
 const NovelChaper = require('./NovelChapter');
 iconv.skipDecodeWarning = true;

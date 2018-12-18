@@ -1,6 +1,6 @@
 
 var AV = require('leanengine');
-var { craw } = require('./util/HttpReq');
+var { craw } = require('./util/http-req');
 
 const webSite = process.env.SELF_WEBSITE || 'http://localhost:3000';
 

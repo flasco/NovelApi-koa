@@ -14,7 +14,7 @@ router.use('/apidoc', apidoc.routes(), apidoc.allowedMethods());
 router.use('/rnklist', rnklist.routes(), rnklist.allowedMethods());
 router.use('/analysis', analysis.routes(), analysis.allowedMethods());
 
-router.get('*', async (ctx, next) => {
+router.get('*', async (ctx) => {
   ctx.body = 'Request Error';
 });
 

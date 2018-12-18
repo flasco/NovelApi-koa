@@ -1,30 +1,25 @@
 const Router = require('koa-router');
 
-const { getChapterDetail, getChapterList,
-  getLatestChapter, getLatestChapterLst } = require('../util/core');
+const {
+  getChapterDetail,
+  getChapterList,
+  getLatestChapter,
+  getLatestChapterLst
+} = require('../core/novel');
 
 const router = Router();
 
 const funArr = [undefined, getChapterList, getChapterDetail, getLatestChapter];
 
 // params: action - Number url - url
-router.get('/', async (ctx, next) => {
-  let params = ctx.request.query;
-  try {
-    ctx.body = await funArr[params.action](params.url);
-  } catch (error) {
-    console.log(error)
-    ctx.body = 'Action / url Error';
-  }
+router.get('/', async (ctx) => {
+  const { url } = ctx.request.query;
+  ctx.body = await funArr[params.action](url);
 });
 
-router.post('/', async (ctx, next) => {
-  let params = ctx.request.body;
-  try {
-    ctx.body = await getLatestChapterLst(params)
-  } catch (error) {
-    ctx.body = 'Action / url Error';
-  }
+router.post('/', async (ctx) => {
+  const params = ctx.request.body;
+  ctx.body = await getLatestChapterLst(params);
 });
 
 module.exports = router;
