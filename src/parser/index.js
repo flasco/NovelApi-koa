@@ -1,10 +1,8 @@
-const ybParser = require('./youbing.parser');
 const biquParser = require('./biqu.parser');
 const xslaParser = require('./xsla.parser');
 const x23usParser = require('./x23us.parser');
 const mxslaParser = require('./mxsla.parser');
 const kanshuzParser = require('./kanshuz.parser');
-const QksParser = require('./qks.parser');
 
 const parserArr = [
   null,
@@ -14,8 +12,6 @@ const parserArr = [
   null,
   new biquParser(),
   new mxslaParser(),
-  new ybParser(),
-  new QksParser(),
 ];
 
 function parserFactory(host) {
@@ -25,8 +21,6 @@ function parserFactory(host) {
     || ((`${host}`).indexOf('qidian') > -1) && 4
     || ((`${host}`).indexOf('biqu.cm') > -1) && 5
     || ((`${host}`).indexOf('m.xs.la') > -1) && 6
-    || ((`${host}`).indexOf('97ub.cc') > -1) && 7
-    || ((`${host}`).indexOf('7kshu.com') > -1) && 8
     || -1;
     if (index === -1) throw new Error('未收录的网址');
   return parserArr[index];

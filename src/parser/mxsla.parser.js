@@ -19,6 +19,7 @@ function MXslaParser() {
 MXslaParser.prototype = new CommonParser();
 
 MXslaParser.prototype.getChapterList = async function (urlx) {
+  if (!/all\.html\b/.test(urlx)) urlx = `${urlx}all.html`;
   let res = await this.getPageContent.call(this, urlx);
   const $ = cheerio.load(res, { decodeEntities: false });
   let as = $(this.chapterListSelector);

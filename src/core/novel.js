@@ -18,7 +18,7 @@ async function getChapterDetail(urlx) {
 async function getLatestChapterLst(list) {
   let workQueue = [];
   for (let i = 0, j = list.length; i < j; i++) {
-    workQueue.push(getLatestChapter(list[i].url));
+    workQueue.push(getLatestChapter(list[i].url).catch(e => {}));
   }
   let resLst = await Promise.all(workQueue);
   workQueue = [];
