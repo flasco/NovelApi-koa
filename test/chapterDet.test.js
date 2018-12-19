@@ -29,5 +29,6 @@ describe('测试章节内容接口', () => {
     let res6 = await getChapterDetail('http://www.biqu.cm/0_852/300117.html');
     expect(res6).toBeInstanceOf(Object);
     expect(res6.content).not.toBe('');
+    expect(res6.content.length).toBeGreaterThan(5);
   }, 100000)
 })
