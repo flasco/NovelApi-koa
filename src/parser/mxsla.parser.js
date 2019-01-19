@@ -50,8 +50,10 @@ class MXslaParser extends BaseParser {
     const titleSet = new Set();
     for (let i = 0, j = as.length, k = 0; i < j; i++) {
       const title = as[i].children[0].data;
-      if (!titleSet.has(title)) {
-        chapterList[k++] = new NovelChaper(title, CHAPTER_URL + as[i].attribs.href);
+      const chapterUrl = as[i].attribs.href;
+
+      if (!titleSet.has(title) && /.html$/g.test(chapterUrl)) {
+        chapterList[k++] = new NovelChaper(title, CHAPTER_URL + chapterUrl);
         titleSet.add(title);
       }
     }

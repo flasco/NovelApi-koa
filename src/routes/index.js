@@ -16,7 +16,7 @@ router.use('/v2/rnklist', rnklist.routes(), rnklist.allowedMethods());
 router.use('/v2/analysis', analysis.routes(), analysis.allowedMethods());
 
 router.get('*', async (ctx) => {
-  ctx.body = 'Request Error';
+  ctx.json(100000, 'invaild routes');
 });
 
 module.exports = router;

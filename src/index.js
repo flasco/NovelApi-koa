@@ -28,7 +28,7 @@ app.use(middleware); //中间件加载
 app.use(routes.routes(), routes.allowedMethods()); // 路由加载
 
 app.on('error', err => {
-  console.log(new Date(), err);
+  console.error(new Date(), err.message);
 });
 
 module.exports = app;

@@ -3,9 +3,16 @@ module.exports = () => {
     try {
       await next()
     } catch (error) {
-      if (ctx.header['content-type'] === 'application/json') {
-        console.log(error);
-        ctx.json(error.code, error.msg || error.message);
+      const { method, url, body, query } = ctx.request;
+      if (method === 'GET') {
+        console.error(method, url, query);
+      } else if (method === 'POST') {
+        console.error(method, url, body);
+      }
+
+      const contentType = ctx.header['content-type'] || ctx.header['contenttype'];
+      if (contentType === 'application/json') {
+        ctx.json(error.code || 10000, error.msg || error.message);
       } else {
         throw error;
       }

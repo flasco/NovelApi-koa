@@ -11,7 +11,7 @@ async function crawlPage(urlx) {
   let res = cccache.get(urlx);
   if (!res) {
     res = await craw(urlx);
-    res !== '-1' && cccache.set(urlx, res, 1000 * 60 * 60 * 4); //存放4小时
+    cccache.set(urlx, res, 1000 * 60 * 60 * 4); //存放4小时
   }
   return res;
 }
@@ -30,7 +30,7 @@ async function craw(urlx, timeout = 3000) {
     });
     return data;
   } catch (error) {
-    throw new FetchException(FETCH, '抓取失败');
+    throw new FetchException(FETCH, `timeout ${timeout}ms exceed`);
   }
 }
 
