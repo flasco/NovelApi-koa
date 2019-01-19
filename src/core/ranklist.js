@@ -1,8 +1,5 @@
 const cheerio = require('cheerio');
 const iconv = require('iconv-lite');
-const url = require('url');
-
-const conf = require('../config');
 
 const { crawlPage } = require('../util/http-req');
 
@@ -11,12 +8,9 @@ async function qdRnkList(x) {
   let RankList = [];
   let res = await crawlPage(urlx);
 
-  const host = url.parse(urlx).host;
-  const cfg = conf.getX(host);
-  if (cfg === '-1') return '暂不支持该网站';
-  res = iconv.decode(res, cfg.charset);
+  res = iconv.decode(res, 'UTF-8');
   const $ = cheerio.load(res, { decodeEntities: false });
-  const ass = $(cfg.novelRankSelector);
+  const ass = $('.book-text tbody tr');
   let $2, asn;
   for (let i = 0, size = ass.length; i < size; i++) {
     $2 = cheerio.load(ass[i], { decodeEntities: false });

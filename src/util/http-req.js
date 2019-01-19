@@ -16,7 +16,7 @@ async function crawlPage(urlx) {
   return res;
 }
 
-async function craw(urlx, timeout = 5000) {
+async function craw(urlx, timeout = 3000) {
   try {
     const { data } = await axios.get(urlx, {
       responseType: 'arraybuffer', //不对抓取的数据进行编码解析

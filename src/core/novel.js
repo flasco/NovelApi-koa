@@ -22,8 +22,8 @@ async function getLatestChapterLst(list) {
   }
   let resLst = await Promise.all(workQueue);
   workQueue = [];
-  let markList = [];
-  let res = resLst.map((item, index) => {
+  const markList = [];
+  const res = resLst.map((item, index) => {
     if (item !== list[index].title) {
       const tmpUrl = list[index].url;
       const originUrl = /m.xs/g.test(tmpUrl) && !/all.html/g.test(tmpUrl) ? `${tmpUrl}all.html` : tmpUrl;
@@ -40,7 +40,7 @@ async function getLatestChapterLst(list) {
   if (workQueue.length !== 0) {
     resLst = await Promise.all(workQueue);
     let i = 0;
-    resLst.filter(item => {
+    resLst.forEach(item => {
       res[markList[i++]].list = item;
     });
   }
