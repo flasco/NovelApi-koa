@@ -27,7 +27,7 @@ function start(tim) {
         clearInterval(timer);
         timer = null;
       } else {
-        craw(webSite, 400);
+        craw(webSite).catch(e => {});
       }
     }, 1200000);
   } else console.log('already running.');
