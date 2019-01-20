@@ -15,8 +15,13 @@ const funArr = [undefined, getChapterList, getChapterDetail, getLatestChapter];
 router.get('/', async (ctx) => {
   const { url, action } = ctx.request.query;
 
-  const result = await funArr[action](url);
-  ctx.json(0, 'ok', result);
+  const func = funArr[action];
+  if (func != null) {
+    const result = await func(url);
+    ctx.json(0, 'ok', result);
+  } else {
+    ctx.json(10000, 'invaild action');
+  }
 });
 
 router.post('/', async (ctx) => {
