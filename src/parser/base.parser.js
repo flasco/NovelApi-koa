@@ -3,6 +3,8 @@ const cheerio = require('cheerio');
 const get = require('lodash/get');
 const NovelChaper = require('../class/NovelChapter');
 
+const FetchException = require('../exceptions/FetchException');
+
 const { crawlPage } = require('../util/http-req');
 iconv.skipDecodeWarning = true;
 
@@ -62,6 +64,8 @@ class BaseParser {
     const $ = cheerio.load(res, { decodeEntities: false });
     const asTitle = $(this.chapterDetail.titleSelector);
     const asContent = $(this.chapterDetail.contentSelector).text();
+
+    if (asContent.includes('正在手打中')) throw new FetchException(10001, '正在手打中..');
 
     const title = get(asTitle, '[0].children[0].data', '');
     const chapter = {
