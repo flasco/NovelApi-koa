@@ -4,18 +4,19 @@ async function searchNovels(title, aut) {
   const query = new AV.SearchQuery('Novel');
   query.queryString(`name:"${title}" author:"${aut}"`);
   const data = await query.find();
-  let resultArr = [];
-  let nameSet = [];
+  const resultArr = [];
+  const nameSet = [];
   for (let i = 0, k = 0, j = data.length; i < j; i++) {
     const curData = data[i];
     const name = curData.get('name');
     const author = curData.get('author');
     const nameKey = `${name}${author}`;
     const mapKey = nameSet[nameKey];
+    const plantFormId = curData.get('plantFormId');
+    const novelUrl = curData.get('url');
     if (mapKey != null) {
-      resultArr[mapKey].source[curData.get('plantFormId')] = curData.get('url');
-      if (curData.get('plantFormId') !== 3)
-        resultArr[mapKey].img = curData.get('img');
+      resultArr[mapKey].source[plantFormId] = novelUrl;
+      if (plantFormId !== 3) resultArr[mapKey].img = curData.get('img');
     } else {
       nameSet[nameKey] = k;
       resultArr[k] = {
@@ -23,10 +24,10 @@ async function searchNovels(title, aut) {
         author,
         desc: curData.get('desc'),
         img: curData.get('img'),
-        plantformId: curData.get('plantFormId'),
+        plantformId: plantFormId,
         source: {}
       };
-      resultArr[k++].source[curData.get('plantFormId')] = curData.get('url');
+      resultArr[k++].source[plantFormId] = novelUrl;
     }
   }
   nameSet = null;
