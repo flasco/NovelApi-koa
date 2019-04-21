@@ -26,7 +26,7 @@ class MXslaParser extends BaseParser {
   }
 
   getPageContent(url) {
-    url = url.replace('xs.', 'xinxs.');
+    url = url.replace('.xs.', '.xinxs.');
     return super.getPageContent(url);
   }
 
