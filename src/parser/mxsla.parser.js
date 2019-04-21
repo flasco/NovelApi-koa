@@ -25,6 +25,11 @@ class MXslaParser extends BaseParser {
     };
   }
 
+  getPageContent(url) {
+    url = url.replace('xs.', 'xinxs.');
+    return super.getPageContent(url);
+  }
+
   async getChapterDetail(url) {
     let res = await this.getPageContent(url);
 

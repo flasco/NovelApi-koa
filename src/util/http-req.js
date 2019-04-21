@@ -16,14 +16,14 @@ async function crawlPage(urlx) {
   return res;
 }
 
-async function craw(urlx, timeout = 3000) {
+async function craw(urlx, timeout = 5000) {
   try {
     const { data } = await axios.get(urlx, {
       responseType: 'arraybuffer', //不对抓取的数据进行编码解析
       timeout,
       headers: {
         'User-Agent':
-          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36',
+          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36',
         Connection: 'keep-alive',
         Referer: 'https://www.baidu.com'
       }

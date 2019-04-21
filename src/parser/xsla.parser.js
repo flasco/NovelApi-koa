@@ -18,6 +18,11 @@ class XslaParser extends BaseParser {
       nextSelector: '#pager_next',
     };
   }
+
+  getPageContent(url) {
+    url = url.replace('xs.', 'xinxs.');
+    return super.getPageContent(url);
+  }
 }
 
 module.exports = XslaParser;
