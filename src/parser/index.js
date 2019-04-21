@@ -22,6 +22,7 @@ function parserFactory(host) {
     || ((`${host}`).indexOf('qidian') > -1) && 4
     || ((`${host}`).indexOf('biqu.cm') > -1) && 5
     || ((`${host}`).indexOf('m.xs.la') > -1) && 6
+    || ((`${host}`).indexOf('m.xinxs.la') > -1) && 6
     || -1;
     if (index === -1) throw new Error('未收录的网址');
   return parserArr[index];
