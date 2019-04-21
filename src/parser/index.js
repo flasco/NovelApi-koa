@@ -16,6 +16,7 @@ const parserArr = [
 
 function parserFactory(host) {
   let index = ((`${host}`).indexOf('x23us') > -1) && 1
+    || ((`${host}`).indexOf('www.xinxs.la') > -1) && 2
     || ((`${host}`).indexOf('www.xs.la') > -1) && 2
     || ((`${host}`).indexOf('kanshuzhong') > -1) && 3
     || ((`${host}`).indexOf('qidian') > -1) && 4
