@@ -5,7 +5,7 @@ async function searchNovels(title, aut) {
   query.queryString(`name:"${title}" author:"${aut}"`);
   const data = await query.find();
   const resultArr = [];
-  const nameSet = [];
+  let nameSet = [];
   for (let i = 0, k = 0, j = data.length; i < j; i++) {
     const curData = data[i];
     const name = curData.get('name');
