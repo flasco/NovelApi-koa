@@ -7,10 +7,10 @@ const booktxtParser = require('./booktxt.parser');
 
 const parserArr = [
   new x23usParser(),
+  new mxslaParser(),
   new xslaParser(),
   new kanshuzParser(),
   new biquParser(),
-  new mxslaParser(),
   new booktxtParser()
 ];
 

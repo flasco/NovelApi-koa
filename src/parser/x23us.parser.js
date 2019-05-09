@@ -9,7 +9,7 @@ class X23usParser extends BaseParser {
     this.charset = 'gbk';
     this.latestChapterInfo = 'content';
     this.url = 'https://www.x23us.com';
-    this.latestChapterSelector = `meta[property='og:novel:latest_chapter_name']`;
+    this.latestChapterSelector = `meta[name='og:novel:latest_chapter_name']`;
     this.chapterListSelector = '.bdsub tbody td a';
     this.chapterDetail = {
       titleSelector: '.bdsub h1',

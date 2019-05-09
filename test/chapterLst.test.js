@@ -1,14 +1,20 @@
 const { getChapterList } = require('../src/core/novel');
 
 describe('测试章节列表接口', () => {
+  test('booktxt.net', async () => {
+    let res = await getChapterList('https://www.booktxt.net/2_2219/');
+    expect(res).toBeInstanceOf(Array);
+    expect(res.length).not.toBe(0);
+  }, 100000)
+
   test('xs.la', async () => {
-    let res = await getChapterList('https://www.xs.la/58_58731/');
+    let res = await getChapterList('https://www.xinxs.la/58_58731/');
     expect(res).toBeInstanceOf(Array);
     expect(res.length).not.toBe(0);
   }, 100000)
 
   test('m.xs.la', async () => {
-    let res = await getChapterList('https://m.xs.la/58_58731/');
+    let res = await getChapterList('https://m.xinxs.la/58_58731/');
     expect(res).toBeInstanceOf(Array);
     expect(res.length).not.toBe(0);
   }, 100000)

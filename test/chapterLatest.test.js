@@ -1,28 +1,39 @@
 const { getLatestChapter } = require('../src/core/novel');
 
 describe('测试章节列表接口', () => {
-  test('xs.la', async () => {
-    let res = await getLatestChapter('https://www.xs.la/87_87069/');
+  test('booktxt.net', async () => {
+    const res = await getLatestChapter('https://www.booktxt.net/2_2219/');
     expect(res).not.toBe('');
+    expect(res).not.toBeUndefined();
+  }, 100000)
+
+  test('xs.la', async () => {
+    const res = await getLatestChapter('https://www.xinxs.la/87_87069/');
+    expect(res).not.toBe('');
+    expect(res).not.toBeUndefined();
   }, 100000)
 
   test('m.xs.la', async () => {
-    let res = await getLatestChapter('https://m.xs.la/87_87069/');
+    const res = await getLatestChapter('https://m.xinxs.la/87_87069/');
     expect(res).not.toBe('');
+    expect(res).not.toBeUndefined();
   }, 100000)
 
   test('x23us', async () => {
-    let res = await getLatestChapter('https://www.x23us.com/html/70/70842/');
+    const res = await getLatestChapter('https://www.x23us.com/html/73/73277/');
     expect(res).not.toBe('');
+    expect(res).not.toBeUndefined();
   }, 100000)
 
   test('kanshuzhong', async () => {
-    let res = await getLatestChapter('http://www.kanshuzhong.com/book/123981/');
+    const res = await getLatestChapter('http://www.kanshuzhong.com/book/123981/');
     expect(res).not.toBe('');
+    expect(res).not.toBeUndefined();
   }, 100000)
 
   test('biqu.cm', async () => {
-    let res = await getLatestChapter('http://www.biqu.cm/0_852');
+    const res = await getLatestChapter('http://www.biqu.cm/0_852');
     expect(res).not.toBe('');
+    expect(res).not.toBeUndefined();
   }, 100000)
 })

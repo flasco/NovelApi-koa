@@ -9,7 +9,7 @@ class BooktxtParser extends BaseParser {
     this.charset = 'gbk';
     this.latestChapterInfo = 'content';
     this.url = 'https://www.booktxt.net/';
-    this.latestChapterSelector = `meta[property='og:novel:latest_chapter_name']`;
+    this.latestChapterSelector = `meta[property='og:novel:lastest_chapter_name']`;
     this.chapterListSelector = '#list dd a';
     this.chapterDetail = {
       titleSelector: '.bookname h1',

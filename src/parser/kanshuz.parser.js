@@ -15,7 +15,7 @@ class KanshuzParser extends BaseParser {
     this.chapterListSelector = '.bookcontent dd a';
     this.chapterDetail = {
       titleSelector: '.ctitle',
-      contentSelector: '.textcontent',
+      contentSelector: '.contentbox',
       prevSelector: '.readlink a',
       nextSelector: '.readlink a,4'
     };
