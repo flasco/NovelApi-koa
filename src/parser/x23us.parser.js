@@ -4,7 +4,7 @@ class X23usParser extends BaseParser {
   constructor() {
     super();
 
-    this.key = Symbol('x23us');
+    this.key = ['x23us'];
     this.wheSort = true;
     this.charset = 'gbk';
     this.latestChapterInfo = 'content';

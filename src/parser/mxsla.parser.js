@@ -10,7 +10,7 @@ class MXslaParser extends BaseParser {
   constructor() {
     super();
 
-    this.key = Symbol('m.xs.la');
+    this.key = ['m.xs.la'];
     this.wheSort = false;
     this.charset = 'UTF-8';
     this.latestChapterInfo = 'content';

@@ -1,17 +1,17 @@
 const { parserFactory } = require('../parser');
 
 async function getChapterList(urlx) {
-  let parser = parserFactory(urlx);
+  const parser = parserFactory(urlx);
   return await parser.getChapterList(urlx);
 }
 
 async function getLatestChapter(urlx) {
-  let parser = parserFactory(urlx);
+  const parser = parserFactory(urlx);
   return await parser.getLatestChapter(urlx);
 }
 
 async function getChapterDetail(urlx) {
-  let parser = parserFactory(urlx);
+  const parser = parserFactory(urlx);
   return await parser.getChapterDetail(urlx);
 }
 

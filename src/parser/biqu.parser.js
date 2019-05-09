@@ -4,7 +4,7 @@ class BiquParser extends BaseParser {
   constructor() {
     super();
 
-    this.key = Symbol('biqu.cm');
+    this.key = ['biqu.cm'];
     this.wheSort = false;
     this.charset = 'gbk';
     this.latestChapterInfo = 'content';

@@ -6,7 +6,7 @@ class KanshuzParser extends BaseParser {
   constructor() {
     super();
 
-    this.key = Symbol('kanshuz');
+    this.key = ['kanshuzhong'];
     this.wheSort = false;
     this.charset = 'gbk';
     this.latestChapterInfo = 'content';

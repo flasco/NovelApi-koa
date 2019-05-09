@@ -1,14 +1,14 @@
 const BaseParser = require('./base.parser');
 
-class XslaParser extends BaseParser {
+class BooktxtParser extends BaseParser {
   constructor() {
     super();
 
-    this.key = ['xs.la', 'xinxs.la'];
+    this.key = ['booktxt.net'];
     this.wheSort = true;
-    this.charset = 'UTF-8';
+    this.charset = 'gbk';
     this.latestChapterInfo = 'content';
-    this.url = 'https://www.xs.la/';
+    this.url = 'https://www.booktxt.net/';
     this.latestChapterSelector = `meta[property='og:novel:latest_chapter_name']`;
     this.chapterListSelector = '#list dd a';
     this.chapterDetail = {
@@ -18,11 +18,6 @@ class XslaParser extends BaseParser {
       nextSelector: '#pager_next',
     };
   }
-
-  getPageContent(url) {
-    url = url.replace('.xs.', '.xinxs.');
-    return super.getPageContent(url);
-  }
 }
 
-module.exports = XslaParser;
+module.exports = BooktxtParser;
