@@ -5,6 +5,8 @@ const mxslaParser = require('./mxsla.parser');
 const kanshuzParser = require('./kanshuz.parser');
 const booktxtParser = require('./booktxt.parser');
 
+const { addCount } = require('../core/source-rank');
+
 const parserArr = [
   new x23usParser(),
   new mxslaParser(),
@@ -17,7 +19,10 @@ const parserArr = [
 function parserFactory(host) {
   for (const parser of parserArr) {
     const haveParser = parser.key.some(item => host.includes(item));
-    if (haveParser) return parser;
+    if (haveParser) {
+      addCount(parser.key[0]);
+      return parser;
+    }
   }
 
   throw new Error('未收录的网址');
