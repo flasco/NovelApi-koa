@@ -1,23 +1,27 @@
-const BaseParser = require('./base.parser');
 const get = require('lodash/get');
 const cheerio = require('cheerio');
+
+const BaseParser = require('./base.parser');
+const NovelChaper = require('../class/NovelChapter');
+
+const CHAPTER_URL = 'https://www.kanshuzhong.com';
 
 class KanshuzParser extends BaseParser {
   constructor() {
     super();
 
     this.key = ['kanshuzhong'];
-    this.wheSort = false;
-    this.charset = 'gbk';
+    this.wheSort = true;
+    this.charset = 'utf-8';
     this.latestChapterInfo = 'content';
-    this.url = 'http://www.kanshuzhong.com/';
+    this.url = 'https://www.kanshuzhong.com/';
     this.latestChapterSelector = `meta[property='og:novel:latest_chapter_name']`;
-    this.chapterListSelector = '.bookcontent dd a';
+    this.chapterListSelector = '.mulu_list li a';
     this.chapterDetail = {
-      titleSelector: '.ctitle',
+      titleSelector: '.h1title h1',
       contentSelector: '.contentbox',
-      prevSelector: '.readlink a',
-      nextSelector: '.readlink a,4'
+      prevSelector: '#pager_prev',
+      nextSelector: '#pager_next'
     };
   }
 
@@ -44,6 +48,25 @@ class KanshuzParser extends BaseParser {
         .replace(/\n+/g, '\n')
     };
     return arr;
+  }
+
+  async getChapterList(url) {
+    let res = await this.getPageContent(url);
+    const $ = cheerio.load(res, { decodeEntities: false });
+    let as = $(this.chapterListSelector);
+
+    const chapterList = [];
+    const titleSet = new Set();
+    for (let i = 0, j = as.length, k = 0; i < j; i++) {
+      const title = as[i].children[0].data;
+      const chapterUrl = as[i].attribs.href;
+
+      if (!titleSet.has(title) && /.html$/g.test(chapterUrl)) {
+        chapterList[k++] = new NovelChaper(title, CHAPTER_URL + chapterUrl);
+        titleSet.add(title);
+      }
+    }
+    return chapterList;
   }
 }
 
