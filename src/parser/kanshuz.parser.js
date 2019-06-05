@@ -66,6 +66,18 @@ class KanshuzParser extends BaseParser {
         titleSet.add(title);
       }
     }
+
+    if (this.wheSort) {
+      let o1U, o2U, o1Index, o2Index;
+      novelList.sort(function(a, b) {
+        o1U = a.url;
+        o2U = b.url;
+        o1Index = o1U.substring(o1U.lastIndexOf('/') + 1, o1U.lastIndexOf('.'));
+        o2Index = o2U.substring(o2U.lastIndexOf('/') + 1, o2U.lastIndexOf('.'));
+        return o1Index - o2Index;
+      });
+    }
+
     return chapterList;
   }
 }
