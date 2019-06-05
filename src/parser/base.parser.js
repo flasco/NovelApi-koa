@@ -9,10 +9,10 @@ const { crawlPage } = require('../util/http-req');
 iconv.skipDecodeWarning = true;
 
 class BaseParser {
-  async getPageContent(url) {
+  async getPageContent(url, charset = this.charset) {
     let res = await crawlPage(url);
 
-    res = iconv.decode(res, this.charset);
+    res = iconv.decode(res, charset);
     return res;
   }
 

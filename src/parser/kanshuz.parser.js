@@ -12,7 +12,7 @@ class KanshuzParser extends BaseParser {
 
     this.key = ['kanshuzhong'];
     this.wheSort = true;
-    this.charset = 'utf-8';
+    this.charset = 'gbk';
     this.latestChapterInfo = 'content';
     this.url = 'https://www.kanshuzhong.com/';
     this.latestChapterSelector = `meta[property='og:novel:latest_chapter_name']`;
@@ -26,7 +26,7 @@ class KanshuzParser extends BaseParser {
   }
 
   async getChapterDetail(url) {
-    let res = await this.getPageContent(url);
+    let res = await this.getPageContent(url, 'utf-8');
 
     res = res
       .replace(/&nbsp;/g, '')
