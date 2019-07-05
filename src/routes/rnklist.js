@@ -1,15 +1,17 @@
 const Router = require('koa-router');
-const { RnkList } = require('../util/HttpReq');
+const { qdGGRnkList, qdMMRnkLst } = require('../core/ranklist');
 const router = Router();
 
-// params: p - Number
-router.get('/', async (ctx, next) => {
-  let params = ctx.request.query;
-  try {
-  ctx.body = await RnkList(params.p);
-  } catch (error) {
-    ctx.body = 'Parameter Error';
-  }
+const qdRankFunc = [qdGGRnkList, qdMMRnkLst];
+
+// params: p - Number, gender - 0: male, 1: female
+router.get('/', async (ctx) => {
+  const { p = 1, gender = 0 } = ctx.request.query;
+
+  const qdRnkList = qdRankFunc[gender] || qdGGRnkList;
+  const result = await qdRnkList(p);
+  
+  ctx.json(0, 'ok', result)
 });
 
 module.exports = router;

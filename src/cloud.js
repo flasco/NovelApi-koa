@@ -1,6 +1,6 @@
 
 var AV = require('leanengine');
-var { craw } = require('./util/HttpReq');
+var { craw } = require('./util/http-req');
 
 const webSite = process.env.SELF_WEBSITE || 'http://localhost:3000';
 
@@ -27,7 +27,7 @@ function start(tim) {
         clearInterval(timer);
         timer = null;
       } else {
-        craw(webSite, 400);
+        craw(webSite).catch(e => {});
       }
     }, 1200000);
   } else console.log('already running.');
