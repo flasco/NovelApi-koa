@@ -1,9 +1,22 @@
 const AV = require('leanengine');
 
+const curCls = ['xs_1', 'xs_2', 'xs_3', 'xs_4'];
+
+async function getData(title, aut) {
+  const sqr = `name:"${title}" author:"${aut}"`;
+  const workArr = curCls.map(className => {
+    const query = new AV.SearchQuery(className);
+    query.queryString(sqr);
+    return query.find();
+  })
+  const result = await Promise.all(workArr);
+  const arr = [];
+  result.forEach(items => arr.push(...items));
+  return arr;
+}
+
 async function searchNovels(title, aut) {
-  const query = new AV.SearchQuery('Novel');
-  query.queryString(`name:"${title}" author:"${aut}"`);
-  const data = await query.find();
+  const data = await getData(title, aut);
   const resultArr = [];
   let nameSet = [];
   for (let i = 0, k = 0, j = data.length; i < j; i++) {
