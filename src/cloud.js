@@ -14,6 +14,12 @@ AV.Cloud.define('serverStart', function (request) {
   return '';
 });
 
+AV.Cloud.define('novelFetch', function () {
+  console.log('每日一抓...');
+  craw(webSite + '/v2/sear?name=我欲').catch(() => null);
+  return '';
+});
+
 let timer = null;
 let lessTime = 0;
 
