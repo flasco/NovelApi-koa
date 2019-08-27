@@ -15,7 +15,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "cheerio": "^1.0.0-rc.3",
-    "koa": "^2.7.0",
+    "koa": "^2.8.1",
     "koa-bodyparser": "^4.2.1",
     "koa-compose": "^4.1.0",
     "koa-ejs": "^4.2.0",
@@ -23,12 +23,12 @@
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "koa-views": "^6.2.0",
-    "leancloud-storage": "^3.14.1",
+    "leancloud-storage": "^3.15.0",
     "leanengine": "^3.4.0",
-    "lodash": "^4.17.13"
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "jest": "^24.8.0"
+    "jest": "^24.9.0"
   },
   "jest": {
     "testEnvironment": "node"
