@@ -10,6 +10,8 @@ async function searchNovels(title, aut) {
     const curData = data[i];
     const name = curData.get('name');
     const author = curData.get('author');
+    if (aut !== '' && aut !== author) continue;
+
     const nameKey = `${name}${author}`;
     const mapKey = nameSet[nameKey];
     const plantFormId = curData.get('plantFormId');
