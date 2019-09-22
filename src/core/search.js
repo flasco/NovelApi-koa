@@ -8,7 +8,7 @@ async function getData(title, aut) {
     const query = new AV.SearchQuery(className);
     query.queryString(sqr);
     return query.find();
-  })
+  });
   const result = await Promise.all(workArr);
   const arr = [];
   result.forEach(items => arr.push(...items));
@@ -23,6 +23,8 @@ async function searchNovels(title, aut) {
     const curData = data[i];
     const name = curData.get('name');
     const author = curData.get('author');
+    if (aut !== '' && aut !== author) continue;
+
     const nameKey = `${name}${author}`;
     const mapKey = nameSet[nameKey];
     const plantFormId = curData.get('plantFormId');
@@ -38,7 +40,7 @@ async function searchNovels(title, aut) {
         desc: curData.get('desc'),
         img: curData.get('img'),
         plantformId: plantFormId,
-        source: {}
+        source: {},
       };
       resultArr[k++].source[plantFormId] = novelUrl;
     }
