@@ -23,6 +23,7 @@
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "koa-views": "^6.2.0",
+    "koa2-cors": "^2.0.6",
     "leancloud-storage": "^3.15.0",
     "leanengine": "^3.4.0",
     "lodash": "^4.17.15"
