@@ -15,5 +15,5 @@ module.exports = compose([
   error(),
   logger(),
   json(),
-  cors()
+  cors({ origin: '*' }),
 ]);
