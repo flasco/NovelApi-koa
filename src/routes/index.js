@@ -7,6 +7,7 @@ const rnklist = require('./rnklist');
 const analysis = require('./analysis');
 const siteMap = require('./siteMap');
 const sourceRank = require('./source-rank');
+const utils = require('./utils');
 
 const router = Router();
 
@@ -18,6 +19,7 @@ router.use('/v2/rnklist', rnklist.routes(), rnklist.allowedMethods());
 router.use('/v2/analysis', analysis.routes(), analysis.allowedMethods());
 router.use('/v2/site-map', siteMap.routes(), siteMap.allowedMethods());
 router.use('/v2/source-rank', sourceRank.routes(), sourceRank.allowedMethods());
+router.use('/v2/utils', utils.routes(), utils.allowedMethods());
 
 router.get('*', async (ctx) => {
   ctx.json(100000, 'invaild routes');
