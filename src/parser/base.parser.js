@@ -32,6 +32,8 @@ class BaseParser {
       }
     }
 
+    titleSet.clear();
+
     if (this.wheSort) {
       let o1U, o2U, o1Index, o2Index;
       novelList.sort(function(a, b) {
