@@ -9,6 +9,7 @@ function cache() {
       const key = 'koa@' + partten;
       const cachedBody = cccache.get(key);
       if (cachedBody) {
+        ctx.set('CACHED-RESULT', true);
         ctx.body = cachedBody;
       } else {
         await next();
