@@ -13,6 +13,8 @@ const app = new Koa();
 
 onerror(app); //错误详细处理
 
+app.use(middleware); //中间件加载
+
 app.use(views(path.join(__dirname, './views'), { extension: 'ejs' })); //视图加载
 
 app.use(
@@ -22,8 +24,6 @@ app.use(
     gzip: true
   })
 ); //静态资源加载
-
-app.use(middleware); //中间件加载
 
 app.use(routes.routes(), routes.allowedMethods()); // 路由加载
 
