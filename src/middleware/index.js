@@ -1,6 +1,5 @@
 const compose = require('koa-compose');
 const bodyParser = require('koa-bodyparser');
-const cors = require('koa2-cors');
 const AV = require('leanengine');
 
 const logger = require('./logger');
@@ -14,14 +13,5 @@ module.exports = compose([
   error(),
   logger(),
   json(),
-  cors({
-    origin: function(ctx) {
-      if (process.env.NODE_ENV === 'development') return '*';
-      return 'https://flasco.gitee.io';
-    },
-    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], //设置所允许的HTTP请求方法
-    allowHeaders: ['Content-Type', 'Authorization', 'Accept'], //设置服务器支持的所有头信息字段
-    exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'] //设置获取其他自定义字段
-  }),
   AV.koa2(),
 ]);

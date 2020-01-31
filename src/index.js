@@ -11,9 +11,24 @@ require('./cloud'); // 包含云函数
 
 const app = new Koa();
 
+const isDev = process.env.NODE_ENV === 'development';
+
+const allowedSite = isDev ? '*' : 'https://flasco.gitee.io';
+
 onerror(app); //错误详细处理
 
 app.use(middleware); //中间件加载
+
+app.use(async (ctx, next) => {
+  ctx.set('Access-Control-Allow-Origin', allowedSite);
+  //允许的header类型
+  ctx.set('Access-Control-Allow-Headers', 'content-type');
+  //跨域允许的请求方式
+  ctx.set('Access-Control-Allow-Methods', 'DELETE,PUT,POST,GET,OPTIONS');
+  if (ctx.method.toLowerCase() == 'options') ctx.body = 200;
+  //让options尝试请求快速结束
+  else await next();
+});
 
 app.use(views(path.join(__dirname, './views'), { extension: 'ejs' })); //视图加载
 
