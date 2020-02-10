@@ -1,25 +1,23 @@
-const biquParser = require('./biqu.parser');
-const xslaParser = require('./xsla.parser');
-const x23usParser = require('./x23us.parser');
-const kanshuzParser = require('./kanshuz.parser');
-const booktxtParser = require('./booktxt.parser');
+const fse = require('fs-extra');
+const path = require('path');
 
-const { addCount } = require('../core/source-rank');
+const configPath = path.resolve(__dirname, './config');
 
-const parserArr = [
-  new x23usParser(),
-  new xslaParser(),
-  new kanshuzParser(),
-  new biquParser(),
-  new booktxtParser()
-];
+const baseParser = require('./base.parser');
 
-function parserFactory(host) {
-  for (const parser of parserArr) {
-    const haveParser = parser.key.some(item => host.includes(item));
-    if (haveParser) {
-      addCount(parser.key[0]);
-      return parser;
+const configDir = fse.readdirSync(configPath);
+
+const jsons = configDir.map(file => fse.readJsonSync(path.resolve(configPath, file)));
+
+const parserMap = {};
+
+function parserFactory(url) {
+  const { host: hostKey } = new URL(url);
+  if (parserMap[hostKey] != null) return parserMap[hostKey];
+  for (const config of jsons) {
+    if (config.site.includes(hostKey)) {
+      parserMap[hostKey] = new baseParser(config);
+      return parserMap[hostKey];
     }
   }
 
