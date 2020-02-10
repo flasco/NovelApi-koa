@@ -1,14 +1,14 @@
 {
-  "site": "https://www.xinxs.la",
+  "site": "https://www.soxs.cc",
   "charset": "UTF-8",
-  "chapterList": "#list dd a",
-  "chapterTitle": ".bookname h1",
-  "chapterContent": "#content",
+  "chapterList": ".novel_list dd a",
+  "chapterTitle": ".read_title h1",
+  "chapterContent": ".content",
   "chapterError": "正在手打中",
   "search": {
-    "method": "get",
-    "pattern": "https://sou.xanbhx.com/search?siteid=xsla&q=${key}",
-    "line": ".search-list li",
+    "method": "post",
+    "pattern": "https://www.soxs.cc/search.html?searchtype=all&searchkey=${key}",
+    "line": "#main ul li",
     "chapter": ".s2 a",
     "author": ".s4"
   },

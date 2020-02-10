@@ -7,21 +7,36 @@ const baseParser = require('./base.parser');
 
 const configDir = fse.readdirSync(configPath);
 
-const jsons = configDir.map(file => fse.readJsonSync(path.resolve(configPath, file)));
+const jsons = configDir.map(file =>
+  fse.readJsonSync(path.resolve(configPath, file))
+);
 
 const parserMap = {};
+
+jsons.forEach(config => {
+  const { host } = new URL(config.site);
+  parserMap[host] = new baseParser(config);
+});
 
 function parserFactory(url) {
   const { host: hostKey } = new URL(url);
   if (parserMap[hostKey] != null) return parserMap[hostKey];
-  for (const config of jsons) {
-    if (config.site.includes(hostKey)) {
-      parserMap[hostKey] = new baseParser(config);
-      return parserMap[hostKey];
-    }
-  }
 
   throw new Error('未收录的网址');
 }
 
+// sites - ['xs.la', 'asd.sx'];
+function getSearchParserFromSites(sites) {
+  const parsers = [];
+  Object.keys(parserMap).map(key => {
+    if (sites.some(kex => key.includes(kex))) {
+      const parser = parserMap[key];
+      if (parser.canSearch) parsers.push(parser);
+    }
+  });
+  if (parsers.length > 0) return parsers;
+  throw new Error('parser 无效');
+}
+
 exports.parserFactory = parserFactory;
+exports.getSearchParserFromSites = getSearchParserFromSites;
