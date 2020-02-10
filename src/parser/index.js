@@ -1,7 +1,6 @@
 const biquParser = require('./biqu.parser');
 const xslaParser = require('./xsla.parser');
 const x23usParser = require('./x23us.parser');
-const mxslaParser = require('./mxsla.parser');
 const kanshuzParser = require('./kanshuz.parser');
 const booktxtParser = require('./booktxt.parser');
 
@@ -9,7 +8,6 @@ const { addCount } = require('../core/source-rank');
 
 const parserArr = [
   new x23usParser(),
-  new mxslaParser(),
   new xslaParser(),
   new kanshuzParser(),
   new biquParser(),

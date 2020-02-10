@@ -23,28 +23,18 @@ class BaseParser {
     const as = $(this.chapterListSelector);
 
     const novelList = [];
-    const titleSet = new Set();
-    for (let i = 0, j = as.length, k = 0; i < j; i++) {
+    const hrefSet = new Set();
+    for (let i = as.length - 1,k = 0; i >= 0; i--) {
       const title = as[i].children[0].data;
-      if (!titleSet.has(title)) {
-        novelList[k++] = new NovelChaper(title, url + as[i].attribs.href);
-        titleSet.add(title);
+      const href = as[i].attribs.href;
+      if (!hrefSet.has(title)) {
+        novelList.push(new NovelChaper(title, url + href));
+        hrefSet.add(title);
       }
     }
 
-    titleSet.clear();
-
-    if (this.wheSort) {
-      let o1U, o2U, o1Index, o2Index;
-      novelList.sort(function(a, b) {
-        o1U = a.url;
-        o2U = b.url;
-        o1Index = o1U.substring(o1U.lastIndexOf('/') + 1, o1U.lastIndexOf('.'));
-        o2Index = o2U.substring(o2U.lastIndexOf('/') + 1, o2U.lastIndexOf('.'));
-        return o1Index - o2Index;
-      });
-    }
-    return novelList;
+    hrefSet.clear();
+    return novelList.reverse();
   }
 
   async getLatestChapter(url) {

@@ -25,8 +25,7 @@ async function getLatestChapterLst(list) {
   const markList = [];
   const res = resLst.map((item, index) => {
     if (item !== list[index].title) {
-      const tmpUrl = list[index].url;
-      const originUrl = /m.xs/g.test(tmpUrl) && !/all.html/g.test(tmpUrl) ? `${tmpUrl}all.html` : tmpUrl;
+      const originUrl = list[index].url;
       workQueue.push(getChapterList(originUrl));
       markList.push(index);
       return {
