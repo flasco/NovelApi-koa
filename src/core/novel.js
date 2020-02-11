@@ -33,6 +33,7 @@ async function searchBook(keyword, sites) {
         result[ptr++] = {
           bookName: item.name,
           author: item.author,
+          plantformId: 0,
           source: [item.url]
         };
       } else {
@@ -42,6 +43,11 @@ async function searchBook(keyword, sites) {
   });
 
   return result;
+}
+
+async function getBookInfo(url) {
+  const parser = parserFactory(url);
+  return await parser.getDetail(url);
 }
 
 async function getLatestChapterLst(list) {
@@ -77,6 +83,7 @@ async function getLatestChapterLst(list) {
 }
 
 exports.searchBook = searchBook;
+exports.getBookInfo = getBookInfo;
 exports.getChapterList = getChapterList;
 exports.getLatestChapter = getLatestChapter;
 exports.getChapterDetail = getChapterDetail;

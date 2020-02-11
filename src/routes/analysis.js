@@ -4,7 +4,8 @@ const {
   getChapterDetail,
   getChapterList,
   getLatestChapter,
-  getLatestChapterLst
+  getLatestChapterLst,
+  getBookInfo,
 } = require('../core/novel');
 
 const router = Router();
@@ -12,7 +13,7 @@ const router = Router();
 const funArr = [undefined, getChapterList, getChapterDetail, getLatestChapter];
 
 // params: action - Number url - url
-router.get('/', async (ctx) => {
+router.get('/', async ctx => {
   const { url, action } = ctx.request.query;
 
   const func = funArr[action];
@@ -24,7 +25,14 @@ router.get('/', async (ctx) => {
   }
 });
 
-router.post('/', async (ctx) => {
+router.get('/info', async ctx => {
+  const { url } = ctx.request.query;
+
+  const result = await getBookInfo(url);
+  ctx.json(0, 'ok', result);
+});
+
+router.post('/', async ctx => {
   const params = ctx.request.body;
 
   const result = await getLatestChapterLst(params);
