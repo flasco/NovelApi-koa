@@ -25,6 +25,10 @@ function parserFactory(url) {
   throw new Error('未收录的网址');
 }
 
+function getSiteMap() {
+  return Object.keys(parserMap);
+}
+
 // sites - ['xs.la', 'asd.sx'];
 function getSearchParserFromSites(sites) {
   const parsers = [];
@@ -38,5 +42,6 @@ function getSearchParserFromSites(sites) {
   throw new Error('parser 无效');
 }
 
+exports.getSiteMap = getSiteMap;
 exports.parserFactory = parserFactory;
 exports.getSearchParserFromSites = getSearchParserFromSites;

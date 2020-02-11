@@ -5,7 +5,7 @@ const apidoc = require('./apidoc');
 const search = require('./search');
 const rnklist = require('./rnklist');
 const analysis = require('./analysis');
-const siteMap = require('./siteMap');
+const siteMap = require('./site-map');
 const sourceRank = require('./source-rank');
 const utils = require('./utils');
 
@@ -15,6 +15,7 @@ router.use('/', home.routes(), home.allowedMethods());
 router.use('/apidoc', apidoc.routes(), apidoc.allowedMethods());
 
 router.use('/v2/sear', search.routes(), search.allowedMethods());
+router.use('/v2/new-search', search.routes(), search.allowedMethods());
 router.use('/v2/rnklist', rnklist.routes(), rnklist.allowedMethods());
 router.use('/v2/analysis', analysis.routes(), analysis.allowedMethods());
 router.use('/v2/site-map', siteMap.routes(), siteMap.allowedMethods());
