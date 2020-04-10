@@ -17,6 +17,7 @@
     "description": "meta[property='og:description']",
     "imageUrl": "meta[property='og:image']",
     "author": "meta[property='og:novel:author']",
-    "name": "meta[property='og:novel:book_name']"
+    "name": "meta[property='og:novel:book_name']",
+    "filterText": "搜小说(www.soxs.cc)”查找最新章节"
   }
 }
