@@ -32,7 +32,7 @@ function getSiteMap() {
 // sites - ['xs.la', 'asd.sx'];
 function getSearchParserFromSites(sites) {
   const parsers = [];
-  if (sites.length < 1) sites.push('xs.la'); // 设个默认值
+  if (sites.length < 1) sites.push('xinxs.la'); // 设个默认值
   Object.keys(parserMap).map(key => {
     if (sites.some(kex => key.includes(kex))) {
       const parser = parserMap[key];

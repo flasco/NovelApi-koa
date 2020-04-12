@@ -1,0 +1,22 @@
+{
+  "site": "https://www.qiuxiaoshuo.org",
+  "charset": "gbk",
+  "chapterList": "#chapters-list li a",
+  "chapterTitle": "h1",
+  "chapterContent": "#txtContent",
+  "chapterError": "正在手打中",
+  "search": {
+    "method": "get",
+    "pattern": "https://www.qiuxiaoshuo.org/search.htm?keyword=${key}",
+    "line": "#novel-list li",
+    "chapter": "div:nth-child(2) a",
+    "author": "div:nth-child(4)"
+  },
+  "detail": {
+    "latest": "meta[property='og:novel:latest_chapter_name']",
+    "description": "meta[property='og:description']",
+    "imageUrl": "meta[property='og:image']",
+    "author": "meta[property='og:novel:author']",
+    "name": "meta[property='og:novel:book_name']"
+  }
+}

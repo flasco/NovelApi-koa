@@ -3,8 +3,9 @@
   "charset": "UTF-8",
   "chapterList": "#list dd a",
   "chapterTitle": ".bookname h1",
-  "chapterContent": "#content",
+  "chapterContent": "#content p",
   "chapterError": "正在手打中",
+  "filterText": "bxwxorg.com",
   "search": {
     "method": "post",
     "pattern": "https://www.bxwxorg.com/search.html?searchtype=all&searchkey=${key}",

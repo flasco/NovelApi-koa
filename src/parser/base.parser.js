@@ -72,24 +72,40 @@ class BaseParser {
       .replace(/<br\/>/g, '${line}');
 
     const $ = cheerio.load(res, { decodeEntities: false });
-    const { chapterTitle, chapterContent, chapterError } = this.config;
-    const asTitle = $(chapterTitle)
-      .text()
-      .trim();
-    const asContent = $(chapterContent).text();
+    const {
+      chapterTitle,
+      chapterContent,
+      chapterError,
+      filterText,
+    } = this.config;
+    const asTitle = $(chapterTitle).text().trim();
+    const texts = [];
+    $(chapterContent).each((_, $1) => {
+      texts.push(cheerio($1).text());
+    })
+
+    const asContent = texts.join('\n');
 
     if (chapterError && asContent.includes(chapterError)) {
       throw new FetchException(10001, '正在手打中..');
     }
 
+    let text = asContent
+      .replace(/\${line}/g, '\n')
+      .replace(/[ ]+/g, '')
+      .replace(/[　]+/g, '')
+      .replace(/\n+/g, '\n')
+      .replace(/\t+/g, '');
+
+    if (filterText != null) {
+      text = text.split('\n').filter((i) => !i.includes(filterText)).join('\n');
+    }
+
     const chapter = {
       title: asTitle,
-      content: asContent
-        .replace(/\${line}/g, '\n')
-        .replace(/[ 　]+/g, '')
-        .replace(/\n+/g, '\n')
-        .replace(/\t+/g, '')
+      content: text,
     };
+
     return chapter;
   }
 
@@ -145,7 +161,7 @@ class BaseParser {
       name: $(name).attr('content'),
       author: $(author).attr('content'),
       image: $(imageUrl).attr('content'),
-    }
+    };
   }
 }
 
