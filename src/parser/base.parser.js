@@ -1,56 +1,66 @@
+const assert = require('assert');
 const iconv = require('iconv-lite');
+const URL = require('url');
 const cheerio = require('cheerio');
-const get = require('lodash/get');
 const NovelChaper = require('../class/NovelChapter');
 
 const FetchException = require('../exceptions/FetchException');
 
-const { crawlPage } = require('../util/http-req');
+const { crawlPage, postCrawl } = require('../util/http-req');
 iconv.skipDecodeWarning = true;
 
 class BaseParser {
-  async getPageContent(url, charset = this.charset) {
-    let res = await crawlPage(url);
+  constructor(config) {
+    this.config = config;
+    this.checkConfig(this.config.site);
+    this.checkConfig(this.config.charset);
+    this.checkConfig(this.config.detail.latest);
+    this.checkConfig(this.config.chapterList);
+    this.checkConfig(this.config.chapterTitle);
+    this.checkConfig(this.config.chapterContent);
+  }
 
-    res = iconv.decode(res, charset);
-    return res;
+  checkConfig(value) {
+    assert.ok(value, new FetchException(1000, 'config配置错误'));
+  }
+
+  async getPageContent(url, timeout = 5000) {
+    const res = await crawlPage(url, timeout);
+    return iconv.decode(res, this.config.charset);
+  }
+
+  async getPostContent(url, payload, timeout = 5000) {
+    const res = await postCrawl(url, payload, timeout);
+    return iconv.decode(res, this.config.charset);
   }
 
   async getChapterList(url) {
     let res = await this.getPageContent(url);
 
     const $ = cheerio.load(res, { decodeEntities: false });
-    const as = $(this.chapterListSelector);
+    const as = $(this.config.chapterList);
 
     const novelList = [];
-    const titleSet = new Set();
-    for (let i = 0, j = as.length, k = 0; i < j; i++) {
-      const title = as[i].children[0].data;
-      if (!titleSet.has(title)) {
-        novelList[k++] = new NovelChaper(title, url + as[i].attribs.href);
-        titleSet.add(title);
+    const hrefSet = new Set();
+    for (let i = as.length - 1; i >= 0; i--) {
+      const ele = as.eq(i);
+      const title = ele.text();
+      const href = ele.attr('href');
+      if (!hrefSet.has(title)) {
+        novelList.push(new NovelChaper(title, URL.resolve(url, href)));
+        hrefSet.add(title);
       }
     }
 
-    if (this.wheSort) {
-      let o1U, o2U, o1Index, o2Index;
-      novelList.sort(function(a, b) {
-        o1U = a.url;
-        o2U = b.url;
-        o1Index = o1U.substring(o1U.lastIndexOf('/') + 1, o1U.lastIndexOf('.'));
-        o2Index = o2U.substring(o2U.lastIndexOf('/') + 1, o2U.lastIndexOf('.'));
-        return o1Index - o2Index;
-      });
-    }
-    return novelList;
+    hrefSet.clear();
+    return novelList.reverse();
   }
 
   async getLatestChapter(url) {
-    let res = await this.getPageContent(url);
-
+    const res = await this.getPageContent(url);
     const $ = cheerio.load(res, { decodeEntities: false });
-    let as = $(this.latestChapterSelector);
-    return as.attr(this.latestChapterInfo);
+
+    return $(this.config.detail.latest).attr('content');
   }
 
   async getChapterDetail(url) {
@@ -62,22 +72,81 @@ class BaseParser {
       .replace(/<br\/>/g, '${line}');
 
     const $ = cheerio.load(res, { decodeEntities: false });
-    const asTitle = $(this.chapterDetail.titleSelector);
-    const asContent = $(this.chapterDetail.contentSelector).text();
+    const { chapterTitle, chapterContent, chapterError } = this.config;
+    const asTitle = $(chapterTitle)
+      .text()
+      .trim();
+    const asContent = $(chapterContent).text();
 
-    if (asContent.includes('正在手打中')) throw new FetchException(10001, '正在手打中..');
+    if (chapterError && asContent.includes(chapterError)) {
+      throw new FetchException(10001, '正在手打中..');
+    }
 
-    const title = get(asTitle, '[0].children[0].data', '');
     const chapter = {
-      title: title.split('_')[0],
+      title: asTitle,
       content: asContent
         .replace(/\${line}/g, '\n')
         .replace(/[ 　]+/g, '')
         .replace(/\n+/g, '\n')
+        .replace(/\t+/g, '')
     };
     return chapter;
+  }
+
+  get canSearch() {
+    return this.config.search != null;
+  }
+
+  async search(keyword) {
+    const { pattern, line, chapter, author, method } = this.config.search;
+
+    const searchUrl = pattern.replace('${key}', keyword);
+
+    let res;
+    if (method === 'post') {
+      const args = URL.parse(searchUrl, true);
+      res = await this.getPostContent(searchUrl, args.query, 8000);
+    } else {
+      res = await this.getPageContent(searchUrl, 8000);
+    }
+
+    const $ = cheerio.load(res, { decodeEntities: false });
+
+    const lines = $(line);
+
+    const searchList = [];
+    for (let i = 0; i < lines.length; i++) {
+      const ele = lines.eq(i);
+      const AName = ele.find(chapter);
+      const title = AName.text().trim();
+      if (title === '') continue;
+      const href = AName.attr('href');
+
+      const aut = ele.find(author).text();
+      searchList.push({
+        name: title,
+        url: URL.resolve(searchUrl, href),
+        author: aut,
+      });
+    }
+
+    return searchList;
+  }
+
+  async getDetail(url) {
+    const { latest, description, imageUrl, author, name } = this.config.detail;
+    const res = await this.getPageContent(url);
+
+    const $ = cheerio.load(res, { decodeEntities: false });
+
+    return {
+      latest: $(latest).attr('content'),
+      desc: $(description).attr('content'),
+      name: $(name).attr('content'),
+      author: $(author).attr('content'),
+      image: $(imageUrl).attr('content'),
+    }
   }
 }
 
 module.exports = BaseParser;
-exports.NovelChaper = NovelChaper;

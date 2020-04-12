@@ -1,0 +1,22 @@
+{
+  "site": "https://www.bxwxorg.com",
+  "charset": "UTF-8",
+  "chapterList": "#list dd a",
+  "chapterTitle": ".bookname h1",
+  "chapterContent": "#content",
+  "chapterError": "正在手打中",
+  "search": {
+    "method": "post",
+    "pattern": "https://www.bxwxorg.com/search.html?searchtype=all&searchkey=${key}",
+    "line": "#sitembox dl",
+    "chapter": "h3 a",
+    "author": ".book_other span:nth-child(1)"
+  },
+  "detail": {
+    "latest": "meta[property='og:novel:latest_chapter_name']",
+    "description": "meta[property='og:description']",
+    "imageUrl": "meta[property='og:image']",
+    "author": "meta[property='og:novel:author']",
+    "name": "meta[property='og:novel:book_name']"
+  }
+}

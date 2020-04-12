@@ -1,9 +1,9 @@
 const AV = require('leanengine');
 
 AV.init({
-  appId: process.env.LEANCLOUD_APP_ID || 'XvM4C5TKB8AK1XcyC3041OeQ-gzGzoHsz',
-  appKey: process.env.LEANCLOUD_APP_KEY || 'hF492dpV15UMdQt120SE966S',
-  masterKey: process.env.LEANCLOUD_APP_MASTER_KEY || 'E4zmhkfMxtVIywSB4qnhkq1C'
+  appId: process.env.LEANCLOUD_APP_ID || 'T51iKKGXz2t9OriABcYSeRac-MdYXbMMI',
+  appKey: process.env.LEANCLOUD_APP_KEY || 'n57PqFRFsbwsSddDPO89Xpj5',
+  masterKey: process.env.LEANCLOUD_APP_MASTER_KEY || '9wfTPNEVmSjkzMICbztkEMc4'
 });
 
 if(process.env.LEANCLOUD_APP_ID){

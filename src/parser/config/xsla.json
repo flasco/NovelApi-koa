@@ -1,0 +1,22 @@
+{
+  "site": "https://www.xinxs.la",
+  "charset": "UTF-8",
+  "chapterList": "#list dd a",
+  "chapterTitle": ".bookname h1",
+  "chapterContent": "#content",
+  "chapterError": "正在手打中",
+  "search": {
+    "method": "get",
+    "pattern": "https://sou.xanbhx.com/search?siteid=xsla&q=${key}",
+    "line": ".search-list li",
+    "chapter": ".s2 a",
+    "author": ".s4"
+  },
+  "detail": {
+    "latest": "meta[property='og:novel:latest_chapter_name']",
+    "description": "meta[property='og:description']",
+    "imageUrl": "meta[property='og:image']",
+    "author": "meta[property='og:novel:author']",
+    "name": "meta[property='og:novel:book_name']"
+  }
+}
