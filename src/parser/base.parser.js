@@ -114,7 +114,7 @@ class BaseParser {
   }
 
   async search(keyword) {
-    const { pattern, line, chapter, author, method } = this.config.search;
+    const { pattern, line, chapter, author, method, replaceUrl } = this.config.search;
 
     const searchUrl = pattern.replace('${key}', keyword);
 
@@ -136,8 +136,11 @@ class BaseParser {
       const AName = ele.find(chapter);
       const title = AName.text().trim();
       if (title === '') continue;
-      const href = AName.attr('href');
+      let href = AName.attr('href');
 
+      if (replaceUrl != null) {
+        href = href.replace(...replaceUrl.split('|'));
+      }
       const aut = ele.find(author).text();
       searchList.push({
         name: title,
