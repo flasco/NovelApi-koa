@@ -7,20 +7,21 @@
     {
       "type": "node",
       "request": "launch",
+      "console": "internalConsole",
       "name": "BASE DEBUG",
-      "program": "${file}",
+      "program": "${file}"
     },
     {
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "console": "internalConsole",
+      "skipFiles": ["<node_internals>/**"],
+      "env": {
+        "NODE_ENV": "development"
+      },
       "program": "${workspaceFolder}/server.js",
-      "outFiles": [
-        "${workspaceFolder}/**/*.js"
-      ]
+      "outFiles": ["${workspaceFolder}/**/*.js"]
     }
   ]
 }

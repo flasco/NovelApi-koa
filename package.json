@@ -11,7 +11,7 @@
     "test": "jest --no-cache --forceExit --runInBand"
   },
   "engines": {
-    "node": "10.x"
+    "node": "12.x"
   },
   "dependencies": {
     "axios": "^0.19.2",
@@ -28,7 +28,8 @@
     "koa2-cors": "^2.0.6",
     "leancloud-storage": "^4.2.0",
     "leanengine": "^3.4.0",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "urlencode": "^1.1.0"
   },
   "devDependencies": {
     "jest": "^24.9.0"

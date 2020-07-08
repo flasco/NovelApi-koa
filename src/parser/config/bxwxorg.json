@@ -8,7 +8,7 @@
     "bookName": "tag.h3@tag.a@text",
     "bookUrl": "tag.h3@tag.a@href",
     "latestChapter": "class.book_other@tag.a@text",
-    "author": "class.book_other@tag.span:nth-child(1)"
+    "author": "class.book_other@tag.span:nth-child(1)@text"
   },
   "list": {
     "chapters": "id.list@tag.dd@tag.a",

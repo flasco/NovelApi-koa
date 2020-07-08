@@ -18,13 +18,14 @@ async function getChapterDetail(urlx) {
 async function searchBook(keyword, sites) {
   const parsers = getSearchParserFromSites(sites);
   const workArr = parsers.map(parser =>
-    parser.search(encodeURIComponent(keyword))
+    parser.search(keyword)
   );
 
   const resultArr = await Promise.all(workArr);
   const result = [];
   const nameMap = {};
   let ptr = 0;
+
   resultArr.forEach(items => {
     items.forEach(item => {
       const position = nameMap[`${item.name}${item.author}`];
@@ -59,8 +60,9 @@ async function getLatestChapterLst(list) {
   workQueue.length = 0;
   const markList = [];
   const res = resLst.map((item, index) => {
-    if (item !== list[index].title) {
-      const originUrl = list[index].url;
+    const listItem = list[index];
+    if (item !== listItem.title) {
+      const originUrl = listItem.fullUrl || listItem.url;
       workQueue.push(getChapterList(originUrl));
       markList.push(index);
       return {

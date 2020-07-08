@@ -19,6 +19,7 @@ function htmlAnalysis(content, instStr = '') {
   const inst = insts[0].split('##')[0];
   const formatApi = inst.includes('.') ? formatX : formatLatest;
   const resX = formatApi(insts[0], $);
+
   return resX;
 }
 
