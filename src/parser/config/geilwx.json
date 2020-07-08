@@ -1,0 +1,29 @@
+{
+  "site": "https://www.geilwx.cc",
+  "charset": "gbk",
+  "search": {
+    "method": "get",
+    "pattern": "https://www.geilwx.cc/modules/article/search.php?searchkey=${key}",
+    "bookList": "class.col-md-4",
+    "bookName": "tag.h4@tag.a@text",
+    "bookUrl": "tag.h4@tag.a@href",
+    "latestChapter": "",
+    "author": "tag.small@text##\\s*\\/.*"
+  },
+  "list": {
+    "chapters": "class.col-md-3@tag.a",
+    "title": "text",
+    "href": "href"
+  },
+  "detail": {
+    "latest": "class.col-md-10@tag.a.3@text",
+    "description": "id.bookIntro@text",
+    "imageUrl": "tag.img.1@src",
+    "author": "class.red@text",
+    "name": "class.bookTitle@text##\\s*\\/.*"
+  },
+  "chapter": {
+    "title": "tag.h1@text",
+    "content": "id.htmlContent@html##(&n.*>)|(本章未完，点击下一页继续阅读)|(给力文学网.*?最新章节！)"
+  }
+}

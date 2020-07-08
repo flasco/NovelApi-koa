@@ -1,12 +1,12 @@
 const assert = require('assert');
 const iconv = require('iconv-lite');
 const URL = require('url');
-const cheerio = require('cheerio');
-const NovelChaper = require('../class/NovelChapter');
+const urlencode = require('urlencode');
 
 const FetchException = require('../exceptions/FetchException');
 
 const { crawlPage, postCrawl } = require('../util/http-req');
+const htmlAnalysis = require('../util/quert');
 iconv.skipDecodeWarning = true;
 
 class BaseParser {
@@ -15,9 +15,9 @@ class BaseParser {
     this.checkConfig(this.config.site);
     this.checkConfig(this.config.charset);
     this.checkConfig(this.config.detail.latest);
-    this.checkConfig(this.config.chapterList);
-    this.checkConfig(this.config.chapterTitle);
-    this.checkConfig(this.config.chapterContent);
+    this.checkConfig(this.config.list);
+    this.checkConfig(this.config.detail);
+    this.checkConfig(this.config.chapter);
   }
 
   checkConfig(value) {
@@ -29,26 +29,31 @@ class BaseParser {
     return iconv.decode(res, this.config.charset);
   }
 
-  async getPostContent(url, payload, timeout = 5000) {
-    const res = await postCrawl(url, payload, timeout);
+  async getPostContent(url, timeout = 5000) {
+    const [newUrl, qstring] = url.split('?');
+    const res = await postCrawl(newUrl, qstring, timeout);
     return iconv.decode(res, this.config.charset);
   }
 
   async getChapterList(url) {
     let res = await this.getPageContent(url);
+    const { list } = this.config;
 
-    const $ = cheerio.load(res, { decodeEntities: false });
-    const as = $(this.config.chapterList);
+    const chapters = htmlAnalysis(res, list.chapters);
 
     const novelList = [];
     const hrefSet = new Set();
-    for (let i = as.length - 1; i >= 0; i--) {
-      const ele = as.eq(i);
-      const title = ele.text();
-      const href = ele.attr('href');
-      if (!hrefSet.has(title)) {
-        novelList.push(new NovelChaper(title, URL.resolve(url, href)));
-        hrefSet.add(title);
+    for (let i = chapters.length - 1; i >= 0; i--) {
+      const item = chapters[i];
+      const title = htmlAnalysis(item, list.title);
+      const href = htmlAnalysis(item, list.href);
+      if (title.length < 1 || href == null) continue;
+      if (!hrefSet.has(href)) {
+        novelList.push({
+          title,
+          url: URL.resolve(url, href).replace(/(.*)(\/.*\/){2}(.*)/, '$1$2$3'),
+        });
+        hrefSet.add(href);
       }
     }
 
@@ -58,9 +63,8 @@ class BaseParser {
 
   async getLatestChapter(url) {
     const res = await this.getPageContent(url);
-    const $ = cheerio.load(res, { decodeEntities: false });
 
-    return $(this.config.detail.latest).attr('content');
+    return htmlAnalysis(res, this.config.detail.latest);
   }
 
   async getChapterDetail(url) {
@@ -68,45 +72,27 @@ class BaseParser {
 
     res = res
       .replace(/&nbsp;/g, '')
+      .replace(/<br>/g, '${line}')
       .replace(/<br \/>/g, '${line}')
       .replace(/<br\/>/g, '${line}');
 
-    const $ = cheerio.load(res, { decodeEntities: false });
-    const {
-      chapterTitle,
-      chapterContent,
-      chapterError,
-      filterText,
-    } = this.config;
-    const asTitle = $(chapterTitle).text().trim();
-    const texts = [];
-    $(chapterContent).each((_, $1) => {
-      texts.push(cheerio($1).text());
-    })
+    const { chapter } = this.config;
+    const base = htmlAnalysis(res);
+    const asContent = htmlAnalysis(base, chapter.content);
 
-    const asContent = texts.join('\n');
-
-    if (chapterError && asContent.includes(chapterError)) {
-      throw new FetchException(10001, '正在手打中..');
-    }
-
-    let text = asContent
+    const text = asContent
       .replace(/\${line}/g, '\n')
       .replace(/[ ]+/g, '')
       .replace(/[　]+/g, '')
       .replace(/\n+/g, '\n')
       .replace(/\t+/g, '');
 
-    if (filterText != null) {
-      text = text.split('\n').filter((i) => !i.includes(filterText)).join('\n');
-    }
-
-    const chapter = {
-      title: asTitle,
+    const ret = {
+      title: htmlAnalysis(base, chapter.title),
       content: text,
     };
 
-    return chapter;
+    return ret;
   }
 
   get canSearch() {
@@ -114,57 +100,71 @@ class BaseParser {
   }
 
   async search(keyword) {
-    const { pattern, line, chapter, author, method, replaceUrl } = this.config.search;
+    const { search, charset } = this.config;
+    const { pattern, method, closeEncode } = search;
 
-    const searchUrl = pattern.replace('${key}', keyword);
+    const searchUrl = pattern.replace(
+      '${key}',
+      urlencode.encode(keyword, closeEncode ? 'utf-8' : charset)
+    );
 
     let res;
     if (method === 'post') {
-      const args = URL.parse(searchUrl, true);
-      res = await this.getPostContent(searchUrl, args.query, 8000);
+      res = await this.getPostContent(searchUrl, 8000);
     } else {
       res = await this.getPageContent(searchUrl, 8000);
     }
-
-    const $ = cheerio.load(res, { decodeEntities: false });
-
-    const lines = $(line);
-
     const searchList = [];
-    for (let i = 0; i < lines.length; i++) {
-      const ele = lines.eq(i);
-      const AName = ele.find(chapter);
-      const title = AName.text().trim();
-      if (title === '') continue;
-      let href = AName.attr('href');
-
-      if (replaceUrl != null) {
-        href = href.replace(...replaceUrl.split('|'));
-      }
-      const aut = ele.find(author).text();
-      searchList.push({
-        name: title,
+    const list = htmlAnalysis(res, search.bookList);
+    for (let i = 0; i < list.length; i++) {
+      const item = list[i];
+      const name = htmlAnalysis(item, search.bookName);
+      const author = htmlAnalysis(item, search.author);
+      const href = htmlAnalysis(item, search.bookUrl);
+      if (href == null || name.length < 1) continue;
+      const payload = {
+        name,
         url: URL.resolve(searchUrl, href),
-        author: aut,
-      });
+        author,
+      };
+      if (search.latestChapter !== '') {
+        payload.latestChapter = htmlAnalysis(item, search.latestChapter);
+      }
+      searchList.push(payload);
     }
-
     return searchList;
   }
 
   async getDetail(url) {
-    const { latest, description, imageUrl, author, name } = this.config.detail;
+    const {
+      latest,
+      description,
+      imageUrl,
+      catalogUrl,
+      author,
+      name,
+    } = this.config.detail;
     const res = await this.getPageContent(url);
 
-    const $ = cheerio.load(res, { decodeEntities: false });
+    const base = htmlAnalysis(res);
 
-    return {
-      latest: $(latest).attr('content'),
-      desc: $(description).attr('content'),
-      name: $(name).attr('content'),
-      author: $(author).attr('content'),
-      image: $(imageUrl).attr('content'),
+    const payload = {
+      latest: htmlAnalysis(base, latest),
+      desc: htmlAnalysis(base, description).trim(),
+      name: htmlAnalysis(base, name),
+      author: htmlAnalysis(base, author),
+      image: URL.resolve(this.config.site, htmlAnalysis(base, imageUrl)),
+      catalogUrl: url,
     };
+
+    if (catalogUrl != null && catalogUrl !== '') {
+      payload.catalogUrl = URL.resolve(
+        this.config.site,
+        htmlAnalysis(base, catalogUrl)
+      );
+    }
+
+    return payload;
   }
 }
 
