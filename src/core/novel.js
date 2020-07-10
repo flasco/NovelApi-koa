@@ -18,7 +18,7 @@ async function getChapterDetail(urlx) {
 async function searchBook(keyword, sites) {
   const parsers = getSearchParserFromSites(sites);
   const workArr = parsers.map(parser =>
-    parser.search(keyword)
+    parser.search(keyword).catch(e => [])
   );
 
   const resultArr = await Promise.all(workArr);
