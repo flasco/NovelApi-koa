@@ -62,8 +62,7 @@ class BaseParser {
   }
 
   async getLatestChapter(url) {
-    const res = await this.getPageContent(url);
-
+    const res = await this.getPageContent(url, 2000);
     return htmlAnalysis(res, this.config.detail.latest);
   }
 
