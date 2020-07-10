@@ -52,18 +52,16 @@ async function getBookInfo(url) {
 }
 
 async function getLatestChapterLst(list) {
-  const workQueue = [];
-  for (let i = 0, j = list.length; i < j; i++) {
-    workQueue.push(getLatestChapter(list[i].url).catch(() => null));
-  }
+  const workQueue = list.map(item => getLatestChapter(item.url).catch(() => null));
+
   let resLst = await Promise.all(workQueue);
   workQueue.length = 0;
   const markList = [];
   const res = resLst.map((item, index) => {
     const listItem = list[index];
-    if (item !== listItem.title) {
+    if (item !== listItem.title && item != null) {
       const originUrl = listItem.fullUrl || listItem.url;
-      workQueue.push(getChapterList(originUrl));
+      workQueue.push(getChapterList(originUrl).catch(() => null));
       markList.push(index);
       return {
         title: item,
@@ -77,7 +75,11 @@ async function getLatestChapterLst(list) {
     resLst = await Promise.all(workQueue);
     let i = 0;
     resLst.forEach(item => {
-      res[markList[i++]].list = item;
+      if (item != null) {
+        res[markList[i++]].list = item;
+      } else {
+        res[markList[i++]] = '-1';
+      }
     });
   }
 
