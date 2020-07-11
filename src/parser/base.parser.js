@@ -109,9 +109,9 @@ class BaseParser {
 
     let res;
     if (method === 'post') {
-      res = await this.getPostContent(searchUrl, 8000);
+      res = await this.getPostContent(searchUrl, 3000);
     } else {
-      res = await this.getPageContent(searchUrl, 8000);
+      res = await this.getPageContent(searchUrl, 3000);
     }
     const searchList = [];
     const list = htmlAnalysis(res, search.bookList);

@@ -25,24 +25,15 @@ function parserFactory(url) {
   throw new Error('未收录的网址');
 }
 
-function getSiteMap() {
-  return Object.keys(parserMap);
-}
-
-// sites - ['xs.la', 'asd.sx'];
-function getSearchParserFromSites(sites) {
+function getSearchParserFromSites() {
   const parsers = [];
-  if (sites.length < 1) sites.push('xinxs.la'); // 设个默认值
   Object.keys(parserMap).map(key => {
-    if (sites.some(kex => key.includes(kex))) {
-      const parser = parserMap[key];
-      if (parser.canSearch) parsers.push(parser);
-    }
+    const parser = parserMap[key];
+    if (parser.canSearch) parsers.push(parser);
   });
   if (parsers.length > 0) return parsers;
   throw new Error('parser 无效');
 }
 
-exports.getSiteMap = getSiteMap;
 exports.parserFactory = parserFactory;
 exports.getSearchParserFromSites = getSearchParserFromSites;
