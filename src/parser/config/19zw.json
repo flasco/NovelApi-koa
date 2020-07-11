@@ -1,5 +1,6 @@
 {
   "site": "https://www.19zw.com",
+  "name": "一九中文网",
   "charset": "gbk",
   "search": {
     "method": "get",

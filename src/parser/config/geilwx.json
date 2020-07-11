@@ -1,5 +1,6 @@
 {
   "site": "https://www.geilwx.cc",
+  "name": "给力文学",
   "charset": "gbk",
   "search": {
     "method": "get",

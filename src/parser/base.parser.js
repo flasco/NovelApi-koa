@@ -61,9 +61,20 @@ class BaseParser {
     return novelList.reverse();
   }
 
-  async getLatestChapter(url) {
+  async getLatestChapter(url, needCatalogUrl = false) {
     const res = await this.getPageContent(url, 2000);
-    return htmlAnalysis(res, this.config.detail.latest);
+    const latestChapter = htmlAnalysis(res, this.config.detail.latest);
+    if (!needCatalogUrl) return latestChapter;
+    const catalogUrl = this.config.detail.catalogUrl || '';
+    const catalog =
+      catalogUrl === ''
+        ? url
+        : URL.resolve(this.config.site, htmlAnalysis(res, catalogUrl));
+    return {
+      latestChapter,
+      siteName: this.config.name,
+      catalogUrl: catalog,
+    };
   }
 
   async getChapterDetail(url) {

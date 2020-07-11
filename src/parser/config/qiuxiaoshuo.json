@@ -1,5 +1,6 @@
 {
   "site": "https://www.qiuxiaoshuo.org",
+  "name": "求小说",
   "charset": "gbk",
   "search": {
     "method": "get",

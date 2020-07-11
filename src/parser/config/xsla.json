@@ -1,5 +1,6 @@
 {
   "site": "https://www.xinxs.la",
+  "name": "笔趣阁-xinxs",
   "charset": "UTF-8",
   "search": {
     "method": "get",

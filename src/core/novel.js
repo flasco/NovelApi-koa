@@ -1,18 +1,18 @@
 const { parserFactory, getSearchParserFromSites } = require('../parser');
 
-async function getChapterList(urlx) {
-  const parser = parserFactory(urlx);
-  return await parser.getChapterList(urlx);
+async function getChapterList(url) {
+  const parser = parserFactory(url);
+  return await parser.getChapterList(url);
 }
 
-async function getLatestChapter(urlx) {
-  const parser = parserFactory(urlx);
-  return await parser.getLatestChapter(urlx);
+async function getLatestChapter(url, needCatalogUrl = false) {
+  const parser = parserFactory(url);
+  return await parser.getLatestChapter(url, needCatalogUrl);
 }
 
-async function getChapterDetail(urlx) {
-  const parser = parserFactory(urlx);
-  return await parser.getChapterDetail(urlx);
+async function getChapterDetail(url) {
+  const parser = parserFactory(url);
+  return await parser.getChapterDetail(url);
 }
 
 async function searchBook(keyword, sites) {
@@ -49,6 +49,13 @@ async function searchBook(keyword, sites) {
 async function getBookInfo(url) {
   const parser = parserFactory(url);
   return await parser.getDetail(url);
+}
+
+async function fetchOriginLatest(list) {
+  if (list.length < 1) return [];
+  const workQueue = list.map(item => getLatestChapter(item, true).catch(() => null));
+  const resLst = await Promise.all(workQueue);
+  return resLst;
 }
 
 async function getLatestChapterLst(list) {
@@ -91,4 +98,5 @@ exports.getBookInfo = getBookInfo;
 exports.getChapterList = getChapterList;
 exports.getLatestChapter = getLatestChapter;
 exports.getChapterDetail = getChapterDetail;
+exports.fetchOriginLatest = fetchOriginLatest;
 exports.getLatestChapterLst = getLatestChapterLst;
