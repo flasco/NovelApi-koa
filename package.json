@@ -28,7 +28,7 @@
     "koa2-cors": "^2.0.6",
     "leancloud-storage": "^4.2.0",
     "leanengine": "^3.4.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "urlencode": "^1.1.0"
   },
   "devDependencies": {
