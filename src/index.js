@@ -7,7 +7,7 @@ const staticServer = require('koa-static');
 const routes = require('./routes');
 const middleware = require('./middleware');
 
-require('./cloud'); // 包含云函数
+const start = require('./cloud'); // 包含云函数
 
 const app = new Koa();
 
@@ -37,14 +37,16 @@ app.use(
   staticServer(path.join(__dirname, './public'), {
     maxage: 1000 * 60 * 60 * 24 * 30,
     hidden: true,
-    gzip: true
+    gzip: true,
   })
 ); //静态资源加载
 
 app.use(routes.routes(), routes.allowedMethods()); // 路由加载
 
-app.on('error', err => {
+app.on('error', (err) => {
   console.error(new Date(), err.message);
 });
+
+start();
 
 module.exports = app;
