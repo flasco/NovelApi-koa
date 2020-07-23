@@ -1,6 +1,5 @@
 const compose = require('koa-compose');
 const bodyParser = require('koa-bodyparser');
-const cors = require('koa2-cors');
 const AV = require('leanengine');
 
 const logger = require('./logger');

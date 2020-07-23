@@ -1,4 +1,5 @@
 const AV = require('leanengine');
+const schedule = require('node-schedule');
 
 const { craw } = require('./util/http-req');
 const { delay } = require('./util');
@@ -12,9 +13,13 @@ AV.Cloud.define('hello', function () {
 });
 
 AV.Cloud.define('serverStart', (req, res) => {
-  console.log('action??');
+  return 'hello!';
+});
+
+let [TStart, TEnd] = runTime.split('-').map((i) => +i);
+
+schedule.scheduleJob(`0 0 ${TStart} * * *`, () => {
   start();
-  res.success('wtf');
 });
 
 let isRunning = false;
@@ -24,7 +29,7 @@ async function start() {
   if (isRunning) {
     return console.log('已经在执行了.');
   }
-  let [TStart, TEnd] = runTime.split('-').map((i) => +i);
+
   let currentHour = new Date().getHours();
   if (TEnd < TStart) TEnd += 24;
   if (TEnd - currentHour > 24) currentHour += 24;
