@@ -91,7 +91,7 @@ async function getLatestChapterLst(list) {
 async function getOriginChapters(list) {
   const workQueue = list.map((item) => getBookInfo(item).catch(() => null));
   const resLst = await Promise.all(workQueue);
-  const result = resLst.map((i, ind) => ({
+  const result = resLst.filter(i => !!i).map((i, ind) => ({
     catalogUrl: i.catalogUrl,
     url: list[ind],
     latestChapter: i.latest || "获取失败",
