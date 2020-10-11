@@ -1,4 +1,4 @@
-const { parserFactory, getSearchParserFromSites } = require('../parser');
+const { parserFactory, getSearchParserFromSites } = require("../parser");
 
 async function getChapterList(urlx) {
   const parser = parserFactory(urlx);
@@ -17,8 +17,8 @@ async function getChapterDetail(urlx) {
 
 async function searchBook(keyword, sites) {
   const parsers = getSearchParserFromSites(sites);
-  const workArr = parsers.map(parser =>
-    parser.search(keyword).catch(e => [])
+  const workArr = parsers.map((parser) =>
+    parser.search(keyword).catch((e) => [])
   );
 
   const resultArr = await Promise.all(workArr);
@@ -26,8 +26,8 @@ async function searchBook(keyword, sites) {
   const nameMap = {};
   let ptr = 0;
 
-  resultArr.forEach(items => {
-    items.forEach(item => {
+  resultArr.forEach((items) => {
+    items.forEach((item) => {
       const position = nameMap[`${item.name}${item.author}`];
       if (position == null) {
         nameMap[`${item.name}${item.author}`] = ptr;
@@ -35,7 +35,7 @@ async function searchBook(keyword, sites) {
           bookName: item.name,
           author: item.author,
           plantformId: 0,
-          source: [item.url]
+          source: [item.url],
         };
       } else {
         result[position].source.push(item.url);
@@ -52,7 +52,9 @@ async function getBookInfo(url) {
 }
 
 async function getLatestChapterLst(list) {
-  const workQueue = list.map(item => getLatestChapter(item.url).catch(() => null));
+  const workQueue = list.map((item) =>
+    getLatestChapter(item.url).catch(() => null)
+  );
 
   let resLst = await Promise.all(workQueue);
   workQueue.length = 0;
@@ -65,25 +67,36 @@ async function getLatestChapterLst(list) {
       markList.push(index);
       return {
         title: item,
-        list: []
+        list: [],
       };
     } else {
-      return '-1';
+      return "-1";
     }
   });
   if (workQueue.length !== 0) {
     resLst = await Promise.all(workQueue);
     let i = 0;
-    resLst.forEach(item => {
+    resLst.forEach((item) => {
       if (item != null) {
         res[markList[i++]].list = item;
       } else {
-        res[markList[i++]] = '-1';
+        res[markList[i++]] = "-1";
       }
     });
   }
 
   return res;
+}
+
+async function getOriginChapters(list) {
+  const workQueue = list.map((item) => getBookInfo(item).catch(() => null));
+  const resLst = await Promise.all(workQueue);
+  const result = resLst.map((i, ind) => ({
+    catalogUrl: i.catalogUrl,
+    url: list[ind],
+    latestChapter: i.latest || "获取失败",
+  }));
+  return result;
 }
 
 exports.searchBook = searchBook;
@@ -92,3 +105,4 @@ exports.getChapterList = getChapterList;
 exports.getLatestChapter = getLatestChapter;
 exports.getChapterDetail = getChapterDetail;
 exports.getLatestChapterLst = getLatestChapterLst;
+exports.getOriginChapters = getOriginChapters;

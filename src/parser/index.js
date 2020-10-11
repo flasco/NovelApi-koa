@@ -18,6 +18,8 @@ jsons.forEach(config => {
   parserMap[host] = new baseParser(config);
 });
 
+const allSites = Object.keys(parserMap);
+
 function parserFactory(url) {
   const { host: hostKey } = new URL(url);
   if (parserMap[hostKey] != null) return parserMap[hostKey];
@@ -32,7 +34,7 @@ function getSiteMap() {
 // sites - ['xs.la', 'asd.sx'];
 function getSearchParserFromSites(sites) {
   const parsers = [];
-  if (sites.length < 1) sites.push('xinxs.la'); // 设个默认值
+  if (sites.length < 1) sites = allSites; // 设个默认值
   Object.keys(parserMap).map(key => {
     if (sites.some(kex => key.includes(kex))) {
       const parser = parserMap[key];

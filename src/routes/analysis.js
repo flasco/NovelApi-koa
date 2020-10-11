@@ -6,6 +6,7 @@ const {
   getLatestChapter,
   getLatestChapterLst,
   getBookInfo,
+  getOriginChapters,
 } = require('../core/novel');
 
 const router = Router();
@@ -36,6 +37,13 @@ router.post('/', async ctx => {
   const params = ctx.request.body;
 
   const result = await getLatestChapterLst(params);
+  ctx.json(0, 'ok', result);
+});
+
+router.post('/origin', async ctx => {
+  const { list = [] } = ctx.request.body;
+
+  const result = await getOriginChapters(list);
   ctx.json(0, 'ok', result);
 });
 
