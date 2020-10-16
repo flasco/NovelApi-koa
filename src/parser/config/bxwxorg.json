@@ -1,9 +1,9 @@
 {
-  "site": "https://www.bxwxorg.com",
+  "site": "http://www.bxwxorg.com",
   "charset": "UTF-8",
   "search": {
     "method": "post",
-    "pattern": "https://www.bxwxorg.com/search.html?searchtype=all&searchkey=${key}",
+    "pattern": "http://www.bxwxorg.com/search.html?searchtype=all&searchkey=${key}",
     "bookList": "id.sitembox@tag.dl",
     "bookName": "tag.h3@tag.a@text",
     "bookUrl": "tag.h3@tag.a@href",
