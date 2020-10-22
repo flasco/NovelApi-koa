@@ -33,6 +33,28 @@ router.get('/info', async ctx => {
   ctx.json(0, 'ok', result);
 });
 
+router.post('/infos', async ctx => {
+  const { sources = [] } = ctx.request.body;
+
+  const stamp = Date.now();
+  const workArr = sources.map((url, index) =>
+    getBookInfo(url)
+      .then(info => {
+        info.plantformId = index;
+        info.stamp = Date.now() - stamp;
+        return info;
+      })
+      .catch(() => null)
+  );
+  const results = await Promise.all(workArr);
+
+  ctx.json(
+    0,
+    'ok',
+    results.filter(i => !!i).sort((a, b) => a.stamp - b.stamp)
+  );
+});
+
 router.post('/', async ctx => {
   const params = ctx.request.body;
 
