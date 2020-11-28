@@ -86,6 +86,8 @@ class BaseParser {
       .replace(/\n+/g, '\n')
       .replace(/\t+/g, '');
 
+    if (text.trim().length < 5) throw new Error('章节异常');
+
     const ret = {
       title: htmlAnalysis(base, chapter.title),
       content: text,
@@ -135,14 +137,7 @@ class BaseParser {
   }
 
   async getDetail(url) {
-    const {
-      latest,
-      description,
-      imageUrl,
-      catalogUrl,
-      author,
-      name,
-    } = this.config.detail;
+    const { latest, description, imageUrl, catalogUrl, author, name } = this.config.detail;
     const res = await this.getPageContent(url);
 
     const base = htmlAnalysis(res);
@@ -157,10 +152,7 @@ class BaseParser {
     };
 
     if (catalogUrl != null && catalogUrl !== '') {
-      payload.catalogUrl = URL.resolve(
-        this.config.site,
-        htmlAnalysis(base, catalogUrl)
-      );
+      payload.catalogUrl = URL.resolve(this.config.site, htmlAnalysis(base, catalogUrl));
     }
 
     return payload;
