@@ -20,13 +20,7 @@ module.exports = () => {
         console.error(JSON.stringify(errorObj, null, 2));
       }
 
-      const contentType =
-        ctx.header['content-type'] || ctx.header['contenttype'];
-      if (contentType === 'application/json') {
-        ctx.json(error.code || 10000, error.msg || error.message);
-      } else {
-        throw error;
-      }
+      ctx.json(error.code || 10000, error.msg || error.message);
     }
   };
 };
