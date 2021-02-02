@@ -11,7 +11,7 @@
     "test": "jest --no-cache --forceExit --runInBand"
   },
   "engines": {
-    "node": "12.x"
+    "node": "14.x"
   },
   "dependencies": {
     "axios": "^0.19.2",
