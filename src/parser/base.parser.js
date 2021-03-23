@@ -36,7 +36,7 @@ class BaseParser {
   }
 
   async getChapterList(url) {
-    let res = await this.getPageContent(url, 3000);
+    let res = await this.getPageContent(url, 6000);
     const { list } = this.config;
 
     const chapters = htmlAnalysis(res, list.chapters);
