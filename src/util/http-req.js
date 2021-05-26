@@ -31,7 +31,7 @@ const baseAxios = axios.create({
   },
 });
 
-const getSource = (timeout) => {
+const getSource = timeout => {
   const source = axios.CancelToken.source();
   setTimeout(() => {
     source.cancel();
@@ -46,7 +46,7 @@ async function postCrawl(url, payload, timeout = 5000) {
     });
     return result.data;
   } catch (error) {
-    console.log(error.message);
+    console.log('err', url, error.message || error);
     throw new FetchException(FETCH, `timeout ${timeout}ms exceed`);
   }
 }

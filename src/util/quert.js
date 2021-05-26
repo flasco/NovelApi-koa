@@ -44,8 +44,13 @@ function formatX(inst, $) {
   }
 }
 
+const regxReplace = (str, regx, replaceText) => {
+  if (regx.length < 1) return str;
+  return str.replace(new RegExp(regx, 'gi'), replaceText);
+}
 function formatLatest(key, $) {
-  const [inst, regx] = key.split('##');
+  const [inst, regx = ''] = key.split('##');
+  const [preRegx = '', replaceText = ''] = regx.split('$@$');
 
   switch (inst) {
     case 'text': {
@@ -54,14 +59,14 @@ function formatLatest(key, $) {
         x.push(cheerio($[i]).text());
       }
       const text = x.join('\n').trim();
-      return text.replace(new RegExp(regx, 'gi'), '');
+      return regxReplace(text, preRegx, replaceText);
     }
     case 'html': {
-      return $.html().replace(new RegExp(regx, 'gi'), '');
+      return regxReplace($.html(), preRegx, replaceText);
     }
     default: {
       const result = $.attr(key);
-      return result;
+      return regxReplace(result, preRegx, replaceText);
     }
   }
 }

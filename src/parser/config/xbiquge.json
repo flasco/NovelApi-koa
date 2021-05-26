@@ -1,9 +1,9 @@
 {
-  "site": "http://www.xbiquge.la",
+  "site": "https://www.xbiquge.la",
   "charset": "UTF-8",
   "search": {
     "method": "post",
-    "pattern": "http://www.xbiquge.la/modules/article/waps.php?searchkey=${key}",
+    "pattern": "https://www.xbiquge.la/modules/article/waps.php?searchkey=${key}",
     "bookList": "class.grid@tag.tr",
     "bookUrl": "tag.td.0@tag.a@href",
     "bookName": "tag.td.0@tag.a@text",
