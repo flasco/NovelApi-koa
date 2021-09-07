@@ -24,19 +24,19 @@ class BaseParser {
     assert.ok(value, new FetchException(1000, 'config配置错误'));
   }
 
-  async getPageContent(url, timeout = 5000) {
+  async _getPageContent(url, timeout = 5000) {
     const res = await crawlPage(url, timeout);
     return iconv.decode(res, this.config.charset);
   }
 
-  async getPostContent(url, timeout = 5000) {
+  async _getPostContent(url, timeout = 5000) {
     const [newUrl, qstring] = url.split('?');
     const res = await postCrawl(newUrl, qstring, timeout);
     return iconv.decode(res, this.config.charset);
   }
 
   async getChapterList(url) {
-    let res = await this.getPageContent(url, 6000);
+    let res = await this._getPageContent(url, 6000);
     const { list } = this.config;
 
     const chapters = htmlAnalysis(res, list.chapters);
@@ -62,12 +62,12 @@ class BaseParser {
   }
 
   async getLatestChapter(url) {
-    const res = await this.getPageContent(url, 4000);
+    const res = await this._getPageContent(url, 4000);
     return htmlAnalysis(res, this.config.detail.latest);
   }
 
   async getChapterDetail(url) {
-    let res = await this.getPageContent(url);
+    let res = await this._getPageContent(url);
 
     res = res
       .replace(/&nbsp;/g, '')
@@ -111,9 +111,9 @@ class BaseParser {
 
     let res;
     if (method === 'post') {
-      res = await this.getPostContent(searchUrl, 8000);
+      res = await this._getPostContent(searchUrl, 8000);
     } else {
-      res = await this.getPageContent(searchUrl, 8000);
+      res = await this._getPageContent(searchUrl, 8000);
     }
     const searchList = [];
     const list = htmlAnalysis(res, search.bookList);
@@ -138,7 +138,7 @@ class BaseParser {
 
   async getDetail(url) {
     const { latest, description, imageUrl, catalogUrl, author, name } = this.config.detail;
-    const res = await this.getPageContent(url);
+    const res = await this._getPageContent(url);
 
     const base = htmlAnalysis(res);
 
