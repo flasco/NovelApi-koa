@@ -30,7 +30,7 @@ async function start() {
     return console.log('已经在执行了.');
   }
 
-  let currentHour = new Date().getUTCHours() + 8;
+  let currentHour = (new Date().getUTCHours() + 8) % 24;
   console.log('current hour[utc+8]:', currentHour);
 
   if (TEnd < TStart) TEnd += 24;
