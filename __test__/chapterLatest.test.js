@@ -18,4 +18,10 @@ describe('测试章节列表接口', () => {
     expect(res).not.toBe('');
     expect(res).not.toBeUndefined();
   }, 100000)
+
+  test('wutuxs', async () => {
+    const res = await getLatestChapter('http://www.wutuxs.com/html/9/9944/');
+    expect(res).not.toBe('');
+    expect(res).not.toBeUndefined();
+  }, 100000)
 })

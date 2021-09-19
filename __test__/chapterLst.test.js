@@ -18,4 +18,10 @@ describe('测试章节列表接口', () => {
     expect(res).toBeInstanceOf(Array);
     expect(res.length).toBeGreaterThan(0);
   }, 100000);
+
+  test('wutuxs', async () => {
+    const res = await getChapterList('http://www.wutuxs.com/html/9/9944/');
+    expect(res).toBeInstanceOf(Array);
+    expect(res.length).toBeGreaterThan(0);
+  }, 100000);
 });

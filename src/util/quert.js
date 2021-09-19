@@ -50,7 +50,7 @@ const regxReplace = (str, regx, replaceText) => {
 }
 function formatLatest(key, $) {
   const [inst, regx = ''] = key.split('##');
-  const [preRegx = '', replaceText = ''] = regx.split('$@$');
+  const [preRegx = '', replaceText = ''] = regx.split('$_$');
 
   switch (inst) {
     case 'text': {
@@ -65,7 +65,7 @@ function formatLatest(key, $) {
       return regxReplace($.html(), preRegx, replaceText);
     }
     default: {
-      const result = $.attr(key);
+      const result = $.attr(inst);
       return regxReplace(result, preRegx, replaceText);
     }
   }

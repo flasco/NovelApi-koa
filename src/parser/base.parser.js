@@ -116,6 +116,25 @@ class BaseParser {
       res = await this._getPageContent(searchUrl, 8000);
     }
     const searchList = [];
+    // 有些网站在搜索仅有一条结果的时候会直接跳转到特定的页面去
+    if (search.isSingle) {
+      const isSingle = htmlAnalysis(res, search.isSingle)?.length < 1;
+      if (isSingle) {
+        const name = htmlAnalysis(res, search.singleBookName);
+        const author = htmlAnalysis(res, search.singleAuthor);
+        const href = htmlAnalysis(res, search.singleBookUrl);
+        if (href == null || name.length < 1) return [];
+        const payload = {
+          name,
+          url: URL.resolve(searchUrl, href),
+          author,
+        };
+        if (search.singleLatestChapter !== '') {
+          payload.latestChapter = htmlAnalysis(res, search.singleLatestChapter);
+        }
+        return [payload];
+      }
+    }
     const list = htmlAnalysis(res, search.bookList);
     for (let i = 0; i < list.length; i++) {
       const item = list[i];

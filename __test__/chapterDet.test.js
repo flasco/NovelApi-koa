@@ -27,4 +27,13 @@ describe('测试章节内容接口', () => {
     expect(typeof res.content).toEqual('string');
     expect(res.content.length).toBeGreaterThan(10);
   }, 100000);
+
+  test('wutuxs', async () => {
+    const res = await getChapterDetail(
+      'https://www.wutuxs.com/html/9/9944/8428628.html'
+    );
+    expect(res).toBeInstanceOf(Object);
+    expect(typeof res.content).toEqual('string');
+    expect(res.content.length).toBeGreaterThan(10);
+  }, 100000);
 });
